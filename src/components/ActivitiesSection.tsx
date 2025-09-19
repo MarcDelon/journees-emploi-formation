@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Users, Building, BookOpen, Target, Award, CheckCircle, TrendingUp, Heart, ArrowRight, X } from 'lucide-react'
 
@@ -37,46 +36,22 @@ const ActivitiesSection = () => {
   const entreprisesActivities = [
     {
       icon: Users,
-      title: "Recrutement et Sourcing",
-      description: "Solutions complètes pour vos besoins de recrutement",
+      title: "Conférences Entreprises",
+      description: "Thématiques clés pour dirigeants et équipes RH",
       details: [
-        "Présélection de candidats qualifiés",
-        "Organisation d'entretiens",
-        "Évaluation des compétences",
-        "Accompagnement dans le processus de sélection"
+        "L'accès aux financements des PME",
+        "Digitalisation des PME"
       ]
     },
     {
       icon: TrendingUp,
-      title: "Conseil RH pour TPE/PME",
-      description: "Expertise RH adaptée aux petites et moyennes entreprises",
+      title: "Masterclass pour Entreprises",
+      description: "Sessions pratiques pour monter en compétences",
       details: [
-        "Définition des profils de poste",
-        "Optimisation des processus RH",
-        "Stratégies de rétention des talents",
-        "Gestion de la diversité et inclusion"
-      ]
-    },
-    {
-      icon: Target,
-      title: "Formation en entreprise",
-      description: "Programmes de formation sur mesure pour vos équipes",
-      details: [
-        "Formation des managers au recrutement inclusif",
-        "Sensibilisation à la diversité",
-        "Développement des compétences",
-        "Team building et cohésion d'équipe"
-      ]
-    },
-    {
-      icon: Heart,
-      title: "Partenariats RSE",
-      description: "Engagement sociétal et responsabilité d'entreprise",
-      details: [
-        "Programmes d'insertion professionnelle",
-        "Mécénat de compétences",
-        "Stages et alternances solidaires",
-        "Actions de sensibilisation"
+        "Redresser les ventes et les finances de son entreprise en difficulté",
+        "Obtenir des financements adaptés à votre entreprise",
+        "Optimiser, anticiper et structurer une équipe RH selon la taille de l’entreprise",
+        "Recruter de bons commerciaux"
       ]
     }
   ]
@@ -216,29 +191,21 @@ const ActivitiesSection = () => {
                 <div className="space-y-3 mb-8">
                   <div className="flex items-center space-x-3 text-gray-700">
                     <div className="w-2 h-2 bg-event-orange rounded-full"></div>
-                    <span>Recrutement et sourcing</span>
+                    <span>Conférences</span>
                   </div>
                   <div className="flex items-center space-x-3 text-gray-700">
                     <div className="w-2 h-2 bg-event-orange rounded-full"></div>
-                    <span>Conseil RH pour TPE/PME</span>
-                  </div>
-                  <div className="flex items-center space-x-3 text-gray-700">
-                    <div className="w-2 h-2 bg-event-orange rounded-full"></div>
-                    <span>Formation en entreprise</span>
-                  </div>
-                  <div className="flex items-center space-x-3 text-gray-700">
-                    <div className="w-2 h-2 bg-event-orange rounded-full"></div>
-                    <span>Partenariats RSE</span>
+                    <span>Masterclass</span>
                   </div>
                 </div>
                 
-                <Link
-                  href="/activites-entreprises"
+                <button
+                  onClick={() => setActiveModal('entreprises')}
                   className="inline-flex items-center space-x-2 bg-event-orange text-white px-6 py-3 rounded-lg font-semibold hover:bg-orange-600 transition-all duration-300 group/link"
                 >
                   <span>Découvrir nos services</span>
                   <ArrowRight className="w-5 h-5 group-hover/link:translate-x-1 transition-transform duration-300" />
-                </Link>
+                </button>
               </div>
             </motion.div>
           </motion.div>
