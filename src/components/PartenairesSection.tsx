@@ -72,6 +72,9 @@ export default function PartenairesSection() {
     return () => clearInterval(id);
   }, [orderedSlides, hovering]);
 
+  // Logos locaux p1..p9.jpeg (utilisés si l'API n'en fournit pas)
+  const localLogos = Array.from({ length: 9 }).map((_, i) => `/images/p${i + 1}.jpeg`);
+
   if (loading) {
     return (
       <div className="py-16 bg-gray-50">
@@ -102,8 +105,6 @@ export default function PartenairesSection() {
         ...p,
         logoUrl: p.logoUrl && p.logoUrl.trim().length > 0 ? p.logoUrl : localLogos[i % localLogos.length],
       }));
-
-  const localLogos = Array.from({ length: 9 }).map((_, i) => `/images/p${i + 1}.jpeg`);
 
   const goTo = (index: number) => {
     const len = slides.length || 1;
