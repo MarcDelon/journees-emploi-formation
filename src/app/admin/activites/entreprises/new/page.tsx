@@ -18,6 +18,7 @@ export default function NewCompanyActivity() {
     phone: '',
     sector: '',
     description: '',
+    activity_type: 'conference' as 'conference' | 'masterclass',
     status: 'active' as 'active' | 'inactive'
   })
 
@@ -41,6 +42,7 @@ export default function NewCompanyActivity() {
         phone: formData.phone || undefined,
         sector: formData.sector,
         description: formData.description,
+        activity_type: formData.activity_type,
         status: formData.status
       })
       
@@ -168,17 +170,17 @@ export default function NewCompanyActivity() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Statut *
+                  Type d'activité *
                 </label>
                 <select
-                  name="status"
-                  value={formData.status}
+                  name="activity_type"
+                  value={formData.activity_type}
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-event-blue focus:border-transparent"
                 >
-                  <option value="active">Actif</option>
-                  <option value="inactive">Inactif</option>
+                  <option value="conference">Conférence</option>
+                  <option value="masterclass">Masterclass</option>
                 </select>
               </div>
             </div>

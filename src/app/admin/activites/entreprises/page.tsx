@@ -29,6 +29,7 @@ interface CompanyActivity {
   phone?: string
   sector: string
   description: string
+  activity_type: 'conference' | 'masterclass'
   created_at: string
   status: 'active' | 'inactive'
 }
@@ -37,6 +38,7 @@ export default function AdminCompanyActivities() {
   const [activities, setActivities] = useState<CompanyActivity[]>([])
   const [searchTerm, setSearchTerm] = useState('')
   const [filterStatus, setFilterStatus] = useState<string>('all')
+  const [filterType, setFilterType] = useState<string>('all')
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
 
@@ -70,7 +72,8 @@ export default function AdminCompanyActivities() {
                          activity.contact_person.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          activity.email.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesFilter = filterStatus === 'all' || activity.status === filterStatus
-    return matchesSearch && matchesFilter
+    const matchesType = filterType === 'all' || activity.activity_type === filterType
+    return matchesSearch && matchesFilter && matchesType
   })
 
   const getStatusColor = (status: string) => {
@@ -141,6 +144,20 @@ export default function AdminCompanyActivities() {
                 <option value="inactive">Inactif</option>
               </select>
             </div>
+
+            {/* Filtre par type */}
+            <div className="relative">
+              <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <select
+                value={filterType}
+                onChange={(e) => setFilterType(e.target.value)}
+                className="pl-10 pr-8 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-event-blue focus:border-transparent appearance-none bg-white"
+              >
+                <option value="all">Tous les types</option>
+                <option value="conference">Conférence</option>
+                <option value="masterclass">Masterclass</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -167,6 +184,9 @@ export default function AdminCompanyActivities() {
                         <h3 className="text-lg font-semibold text-gray-900">{activity.company_name}</h3>
                         <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(activity.status)}`}>
                           {activity.status === 'active' ? 'Actif' : 'Inactif'}
+                        </span>
+                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
+                          {activity.activity_type === 'conference' ? 'Conférence' : 'Masterclass'}
                         </span>
                       </div>
                       
