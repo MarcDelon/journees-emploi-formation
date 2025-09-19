@@ -91,8 +91,8 @@ export default function PartenairesSection() {
     ? Array.from({ length: 9 }).map((_, i) => ({
         id: `static-${i + 1}`,
         nom: `Partenaire ${i + 1}`,
-        // On stocke ici le « baseName » sans extension; on gèrera les extensions en rendu
-        logoUrl: `p${i + 1}`,
+        // Les fichiers détectés sont au format .jpeg
+        logoUrl: `/images/p${i + 1}.jpeg`,
         description: '',
         siteWeb: undefined,
         type: 'media' as const,
@@ -127,7 +127,7 @@ export default function PartenairesSection() {
         <source srcSet={`/images/${baseOrPath}.jpeg`} type="image/jpeg" />
         <source srcSet={`/images/${baseOrPath}.jpg`} type="image/jpeg" />
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`/images/${baseOrPath}.png`} alt={alt} className="w-full h-full object-contain" />
+        <img src={`/images/${baseOrPath}.jpeg`} alt={alt} className="w-full h-full object-contain" />
       </picture>
     );
   };
