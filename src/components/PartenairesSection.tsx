@@ -105,7 +105,8 @@ export default function PartenairesSection() {
       }));
 
   const renderLogo = (path: string, alt: string) => {
-    const src = path.startsWith('/') ? path : `/images/${path}`;
+    const base = path.startsWith('/') ? path : `/images/${path}`;
+    const src = `${base}?v=2`;
     // eslint-disable-next-line @next/next/no-img-element
     return <img src={src} alt={alt} className="w-full h-full object-contain" />;
   };
