@@ -99,7 +99,10 @@ export default function PartenairesSection() {
         active: true,
         ordre: i,
       }))
-    : orderedSlides;
+    : orderedSlides.map((p, i) => ({
+        ...p,
+        logoUrl: p.logoUrl && p.logoUrl.trim().length > 0 ? p.logoUrl : `/images/p${(i % 9) + 1}.jpeg`,
+      }));
 
   const renderLogo = (baseOrPath: string, alt: string) => {
     // Si l'URL contient déjà une extension, on l'utilise telle quelle
@@ -181,8 +184,8 @@ export default function PartenairesSection() {
                 style={{ pointerEvents: isActive ? 'auto' : 'none' }}
               >
                 {/* Logo principal */}
-                <div className="absolute inset-0 flex items-center justify-center p-10">
-                  <div className="relative w-full h-full">
+                <div className="absolute inset-0 flex items-center justify-center p-6 sm:p-10">
+                  <div className="relative w-[80%] h-[70%] md:w-[70%] md:h-[70%]">
                     {renderLogo(p.logoUrl, p.nom)}
                   </div>
                 </div>
