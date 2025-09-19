@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { Building } from 'lucide-react';
 import { Partenaire } from '@/lib/types';
 
@@ -212,6 +213,28 @@ export default function PartenairesSection() {
             ))}
           </div>
         </motion.div>
+
+        {/* Logos fournis manuellement */}
+        <div className="mt-14">
+          <h3 className="sr-only">Logos des partenaires</h3>
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-6 items-center">
+            {Array.from({ length: 9 }).map((_, idx) => {
+              const src = `/images/p${idx + 1}.png`;
+              return (
+                <div key={`p-logo-${idx}`} className="relative h-10 sm:h-12 grayscale hover:grayscale-0 transition-all duration-300">
+                  <Image
+                    src={src}
+                    alt={`Partenaire ${idx + 1}`}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 640px) 33vw, 16vw"
+                    priority={idx < 6}
+                  />
+                </div>
+              )
+            })}
+          </div>
+        </div>
       </div>
     </section>
   );
