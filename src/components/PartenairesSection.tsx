@@ -104,35 +104,10 @@ export default function PartenairesSection() {
         logoUrl: p.logoUrl && p.logoUrl.trim().length > 0 ? p.logoUrl : `/images/p${(i % 9) + 1}.jpeg`,
       }));
 
-  const renderLogo = (baseOrPath: string, alt: string) => {
-    // Si l'URL contient déjà une extension, on l'utilise telle quelle
-    const hasExt = /\.(png|jpe?g|webp|svg)$/i.test(baseOrPath);
-    if (hasExt) {
-      const src = baseOrPath.startsWith('/') ? baseOrPath : `/images/${baseOrPath}`;
-      return (
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          className="object-contain"
-          sizes="(max-width: 768px) 80vw, 50vw"
-          priority
-        />
-      );
-    }
-    // Sinon, on essaie successivement .png, .jpg, .jpeg, .webp
-    const candidates = [`.png`, `.jpg`, `.jpeg`, `.webp`].map(ext => `/images/${baseOrPath}${ext}`);
-    // On rend la première source; on laisse le navigateur échouer silencieusement si manquante via key change
-    return (
-      <picture className="contents">
-        {/* ordre des sources: webp puis jpeg/jpg puis png */}
-        <source srcSet={`/images/${baseOrPath}.webp`} type="image/webp" />
-        <source srcSet={`/images/${baseOrPath}.jpeg`} type="image/jpeg" />
-        <source srcSet={`/images/${baseOrPath}.jpg`} type="image/jpeg" />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`/images/${baseOrPath}.jpeg`} alt={alt} className="w-full h-full object-contain" />
-      </picture>
-    );
+  const renderLogo = (path: string, alt: string) => {
+    const src = path.startsWith('/') ? path : `/images/${path}`;
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={src} alt={alt} className="w-full h-full object-contain" />;
   };
 
   const goTo = (index: number) => {
