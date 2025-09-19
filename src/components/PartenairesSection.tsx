@@ -88,11 +88,10 @@ export default function PartenairesSection() {
   // Si l'API ne renvoie rien, utiliser les 9 logos locaux p1..p9
   const isEmpty = orderedSlides.length === 0;
   const slides: Partenaire[] = isEmpty
-    ? Array.from({ length: 9 }).map((_, i) => ({
+    ? localLogos.map((src, i) => ({
         id: `static-${i + 1}`,
         nom: `Partenaire ${i + 1}`,
-        // Les fichiers détectés sont au format .jpeg
-        logoUrl: `/images/p${i + 1}.jpeg`,
+        logoUrl: src,
         description: '',
         siteWeb: undefined,
         type: 'media' as const,
@@ -101,15 +100,10 @@ export default function PartenairesSection() {
       }))
     : orderedSlides.map((p, i) => ({
         ...p,
-        logoUrl: p.logoUrl && p.logoUrl.trim().length > 0 ? p.logoUrl : `/images/p${(i % 9) + 1}.jpeg`,
+        logoUrl: p.logoUrl && p.logoUrl.trim().length > 0 ? p.logoUrl : localLogos[i % localLogos.length],
       }));
 
-  const renderLogo = (path: string, alt: string) => {
-    const base = path.startsWith('/') ? path : `/images/${path}`;
-    const src = `${base}?v=2`;
-    // eslint-disable-next-line @next/next/no-img-element
-    return <img src={src} alt={alt} className="w-full h-full object-contain" />;
-  };
+  const localLogos = Array.from({ length: 9 }).map((_, i) => `/images/p${i + 1}.jpeg`);
 
   const goTo = (index: number) => {
     const len = slides.length || 1;
@@ -159,11 +153,10 @@ export default function PartenairesSection() {
                 transition={{ duration: 0.6 }}
                 style={{ pointerEvents: isActive ? 'auto' : 'none' }}
               >
-                {/* Logo principal */}
-                <div className="absolute inset-0 flex items-center justify-center p-6 sm:p-10">
-                  <div className="relative w-[80%] h-[70%] md:w-[70%] md:h-[70%]">
-                    {renderLogo(p.logoUrl, p.nom)}
-                  </div>
+                {/* Logo principal (style "édition" plein cadre) */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={`${p.logoUrl}?v=2`} alt={p.nom} className="max-w-[85%] max-h-[75%] object-contain drop-shadow-sm" />
                 </div>
 
                 {/* Contenu */}
