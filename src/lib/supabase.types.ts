@@ -36,6 +36,7 @@ export interface CompanyActivity {
   phone?: string
   sector: string
   description: string
+  activity_type: 'conference' | 'masterclass'
   created_at: string
   updated_at: string
   status: 'active' | 'inactive'
