@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Users, Building, BookOpen, Target, Award, CheckCircle, TrendingUp, Heart, ArrowRight, X } from 'lucide-react'
 
@@ -231,13 +232,13 @@ const ActivitiesSection = () => {
                   </div>
                 </div>
                 
-                <button
-                  onClick={() => setActiveModal('entreprises')}
+                <Link
+                  href="/activites-entreprises"
                   className="inline-flex items-center space-x-2 bg-event-orange text-white px-6 py-3 rounded-lg font-semibold hover:bg-orange-600 transition-all duration-300 group/link"
                 >
                   <span>Découvrir nos services</span>
                   <ArrowRight className="w-5 h-5 group-hover/link:translate-x-1 transition-transform duration-300" />
-                </button>
+                </Link>
               </div>
             </motion.div>
           </motion.div>
