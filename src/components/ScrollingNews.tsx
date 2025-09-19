@@ -98,8 +98,8 @@ const ScrollingNews = () => {
       <div className="relative z-10 py-3">
         <div className="flex items-center justify-center space-x-8">
                      {/* Badge "Actualités" */}
-           <motion.div
-             className="flex items-center space-x-2 bg-white text-black border-2 border-black px-4 py-1 rounded-full shadow-sm"
+          <motion.div
+            className="hidden sm:flex items-center space-x-2 bg-white text-black border-2 border-black px-4 py-1 rounded-full shadow-sm"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
@@ -109,22 +109,22 @@ const ScrollingNews = () => {
           </motion.div>
 
           {/* Rubriques défilantes */}
-          <div className="flex-1 overflow-hidden">
+          <div className="flex-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
             <motion.div
-              className="flex space-x-8 whitespace-nowrap"
+              className="flex space-x-6 sm:space-x-8 whitespace-nowrap px-2"
               animate={{
                 x: ["0%", "-100%"],
               }}
               transition={{
-                duration: 30,
+                duration: 40,
                 repeat: Infinity,
                 ease: "linear",
               }}
             >
               {[...news, ...news].map((item, index) => (
-                                 <motion.div
-                   key={`${item.id}-${index}`}
-                   className="flex items-center space-x-3 bg-gray-50 text-gray-700 px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-100 hover:border-black transition-all duration-300 cursor-pointer group"
+                <motion.div
+                  key={`${item.id}-${index}`}
+                  className="flex items-center space-x-2 sm:space-x-3 bg-gray-50 text-gray-700 px-3 sm:px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-100 hover:border-black transition-all duration-300 cursor-pointer group"
                   whileHover={{ scale: 1.05, y: -2 }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -133,7 +133,7 @@ const ScrollingNews = () => {
                   <div className={`p-1 rounded-full bg-gradient-to-r ${item.color} group-hover:scale-110 transition-transform duration-300`}>
                     {item.icon}
                   </div>
-                                     <span className="text-sm font-medium group-hover:text-black transition-colors duration-300">
+                  <span className="text-xs sm:text-sm font-medium group-hover:text-black transition-colors duration-300">
                      {item.text}
                    </span>
                    <motion.div
@@ -147,8 +147,8 @@ const ScrollingNews = () => {
           </div>
 
                      {/* Bouton "Voir plus" */}
-           <motion.button
-             className="flex items-center space-x-2 bg-white text-black border-2 border-black px-4 py-2 rounded-full hover:bg-gray-50 transition-all duration-300 shadow-sm"
+          <motion.button
+            className="hidden sm:flex items-center space-x-2 bg-white text-black border-2 border-black px-4 py-2 rounded-full hover:bg-gray-50 transition-all duration-300 shadow-sm"
             whileHover={{ scale: 1.05, x: 5 }}
             whileTap={{ scale: 0.95 }}
           >
