@@ -121,7 +121,7 @@ const SimpleVideoTestimonials = () => {
               {/* Lecteur vidéo */}
               <div className="relative aspect-video bg-gray-900">
                 <video
-                  ref={(el) => (videoRefs.current[index] = el)}
+                  ref={(el) => { videoRefs.current[index] = el; }}
                   src={video.videoUrl}
                   className="w-full h-full object-cover"
                   onPlay={() => setPlayingVideo(index)}

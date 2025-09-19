@@ -10,29 +10,32 @@ class InMemoryDataManager {
 		{
 			id: makeId(),
 			nom: 'TechStart SARL',
-			logo: '',
+			logoUrl: '',
 			description: "Entreprise innovante spécialisée dans le numérique et l'accompagnement des TPE/PME.",
-			secteur: 'Technologie',
 			siteWeb: 'https://techstart.example',
-			statut: 'actif',
+			type: 'or',
+			active: true,
+			ordre: 1,
 		},
 		{
 			id: makeId(),
 			nom: 'Centre de Formation Pro',
-			logo: '',
+			logoUrl: '',
 			description: 'Organisme de formation professionnelle certifié.',
-			secteur: 'Formation',
 			siteWeb: 'https://cfp.example',
-			statut: 'actif',
+			type: 'argent',
+			active: true,
+			ordre: 2,
 		},
 		{
 			id: makeId(),
 			nom: 'Digicom Agency',
-			logo: '',
+			logoUrl: '',
 			description: 'Agence marketing et communication digitale.',
-			secteur: 'Marketing',
 			siteWeb: 'https://digicom.example',
-			statut: 'inactif',
+			type: 'bronze',
+			active: false,
+			ordre: 3,
 		},
 	]
 	private evenements: Actualite[] = []
@@ -73,14 +76,129 @@ class InMemoryDataManager {
 		const partenaire: Partenaire = {
 			id: makeId(),
 			nom: payload.nom ?? 'Partenaire',
-			logo: payload.logo ?? '',
+			logoUrl: payload.logoUrl ?? '',
 			description: payload.description ?? '',
-			secteur: payload.secteur ?? 'Général',
 			siteWeb: payload.siteWeb ?? '#',
-			statut: (payload.statut as Partenaire['statut']) ?? 'actif',
+			type: (payload.type as Partenaire['type']) ?? 'bronze',
+			active: payload.active ?? true,
+			ordre: payload.ordre ?? 0,
 		}
 		this.entreprises.unshift(partenaire)
 		return partenaire
+	}
+
+	public getActualites(): Actualite[] {
+		return this.evenements
+	}
+
+	public addActualite(payload: Partial<Actualite>): Actualite {
+		const actualite: Actualite = {
+			id: makeId(),
+			titre: payload.titre ?? 'Sans titre',
+			contenu: payload.contenu ?? '',
+			datePublication: payload.datePublication ?? new Date().toISOString(),
+			imageUrl: payload.imageUrl,
+			active: payload.active ?? true,
+			ordre: payload.ordre ?? 0,
+		}
+		this.evenements.unshift(actualite)
+		return actualite
+	}
+
+	public updateActualite(id: string, payload: Partial<Actualite>): Actualite | null {
+		const index = this.evenements.findIndex(a => a.id === id)
+		if (index === -1) return null
+		this.evenements[index] = { ...this.evenements[index], ...payload }
+		return this.evenements[index]
+	}
+
+	public deleteActualite(id: string): boolean {
+		const index = this.evenements.findIndex(a => a.id === id)
+		if (index === -1) return false
+		this.evenements.splice(index, 1)
+		return true
+	}
+
+	public getPhotos(): PhotoEdition[] {
+		return this.photos
+	}
+
+	public addPhoto(payload: Partial<PhotoEdition>): PhotoEdition {
+		const photo: PhotoEdition = {
+			id: makeId(),
+			titre: payload.titre ?? '',
+			description: payload.description ?? '',
+			imageUrl: payload.imageUrl ?? '',
+			edition: payload.edition ?? '2025',
+			categorie: payload.categorie ?? 'general',
+			datePublication: payload.datePublication ?? new Date().toISOString(),
+			active: payload.active ?? true,
+			ordre: payload.ordre ?? 0
+		}
+		this.photos.unshift(photo)
+		return photo
+	}
+
+	public updatePhoto(id: string, payload: Partial<PhotoEdition>): PhotoEdition | null {
+		const index = this.photos.findIndex(p => p.id === id)
+		if (index === -1) return null
+		this.photos[index] = { ...this.photos[index], ...payload }
+		return this.photos[index]
+	}
+
+	public deletePhoto(id: string): boolean {
+		const index = this.photos.findIndex(p => p.id === id)
+		if (index === -1) return false
+		this.photos.splice(index, 1)
+		return true
+	}
+
+	public getConfiguration(): Configuration | null {
+		return this.configuration
+	}
+
+	public updateConfiguration(payload: Partial<Configuration>): Configuration {
+		const defaultConfig: Configuration = {
+			id: makeId(),
+			titreSite: 'Journées de l\'Emploi et de la Formation',
+			descriptionSite: '6e édition des Journées de l\'Emploi et de la Formation',
+			emailContact: 'journeemploiformation@gmail.com',
+			telephoneContact: '698-704-167',
+			adresse: 'Douala, Cameroun',
+			reseauxSociaux: {},
+			editionActuelle: '6e Édition',
+			dateEvenement: '12-14 novembre 2025',
+			lieuEvenement: 'Geneva Hotel, Douala'
+		}
+		
+		this.configuration = {
+			...defaultConfig,
+			...this.configuration,
+			...payload
+		}
+		return this.configuration
+	}
+
+	public getTemoignages(): TemoignageVideo[] {
+		return this.temoignages
+	}
+
+	public addTemoignage(payload: Partial<TemoignageVideo>): TemoignageVideo {
+		const temoignage: TemoignageVideo = {
+			id: makeId(),
+			titre: payload.titre ?? '',
+			nom: payload.nom ?? 'Anonyme',
+			poste: payload.poste ?? '',
+			entreprise: payload.entreprise ?? '',
+			videoUrl: payload.videoUrl ?? '',
+			thumbnailUrl: payload.thumbnailUrl,
+			description: payload.description ?? '',
+			datePublication: payload.datePublication ?? new Date().toISOString(),
+			active: payload.active ?? true,
+			ordre: payload.ordre ?? 0
+		}
+		this.temoignages.unshift(temoignage)
+		return temoignage
 	}
 }
 

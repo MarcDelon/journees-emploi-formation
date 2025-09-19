@@ -6,8 +6,7 @@ import Image from 'next/image'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ParticipationForm from '@/components/ParticipationForm'
-import { useRef, useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useRef, useEffect, useState, Suspense } from 'react'
 
 // Composant carousel des éditions
 const EditionsCarousel = () => {
@@ -304,24 +303,30 @@ const EditionsCarousel = () => {
   )
 }
 
-export default function JourneesEmploiPage() {
-  const ref = useRef(null)
-  const formRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+function ScrollToForm({ formRef }: { formRef: React.RefObject<HTMLDivElement> }) {
+  const { useSearchParams } = require('next/navigation') as typeof import('next/navigation')
   const searchParams = useSearchParams()
 
-  // Auto-scroll vers le formulaire si le paramètre scroll=form est présent
   useEffect(() => {
     const shouldScrollToForm = searchParams.get('scroll') === 'form'
     if (shouldScrollToForm && formRef.current) {
       setTimeout(() => {
-        formRef.current?.scrollIntoView({ 
+        formRef.current?.scrollIntoView({
           behavior: 'smooth',
-          block: 'start'
+          block: 'start',
         })
-      }, 500) // Délai pour laisser le temps à la page de se charger
+      }, 500)
     }
-  }, [searchParams])
+  }, [searchParams, formRef])
+
+  return null
+}
+
+export default function JourneesEmploiPage() {
+  const ref = useRef(null)
+  const formRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  // Auto-scroll délégué au composant Suspense-safe ScrollToForm
 
   const eventDetails = {
     date: '12-14 novembre 2025',
@@ -372,6 +377,9 @@ export default function JourneesEmploiPage() {
   return (
     <div className="min-h-screen bg-white">
       <Header />
+      <Suspense fallback={null}>
+        <ScrollToForm formRef={formRef} />
+      </Suspense>
       
       <main className="pt-20">
         {/* Hero Section */}

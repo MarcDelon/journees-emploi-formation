@@ -52,12 +52,12 @@ export default function TypologieCandidatsPage() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: 'easeOut', when: 'beforeChildren', staggerChildren: 0.08 },
+      transition: { duration: 0.6, delayChildren: 0, staggerChildren: 0.08 },
     },
   }
   const itemVariants = {
     hidden: { opacity: 0, y: 16 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   }
 
   const renderActiveSlice = (props: any) => {
@@ -351,11 +351,6 @@ export default function TypologieCandidatsPage() {
                         dataKey="value"
                               isAnimationActive
                               animationDuration={800}
-                              activeIndex={ageActiveIndex as any}
-                              activeShape={renderActiveSlice}
-                              onMouseEnter={(_, index) => setAgeActiveIndex(index)}
-                              onMouseLeave={() => setAgeActiveIndex(null)}
-                            onClick={(_, index) => setAgeActiveIndex(index)}
                       >
                         {ageData.map((entry, index) => (
                                 <Cell 
@@ -456,11 +451,6 @@ export default function TypologieCandidatsPage() {
                         dataKey="value"
                               isAnimationActive
                               animationDuration={800}
-                              activeIndex={typeActiveIndex as any}
-                              activeShape={renderActiveSlice}
-                              onMouseEnter={(_, index) => setTypeActiveIndex(index)}
-                              onMouseLeave={() => setTypeActiveIndex(null)}
-                            onClick={(_, index) => setTypeActiveIndex(index)}
                       >
                         {typologieData.map((entry, index) => (
                                 <Cell 

@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { dataManager } from '@/lib/data-manager';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const photos = dataManager.getPhotos();
-    const photo = photos.find(p => p.id === params.id);
+    const photo = photos.find(p => p.id === id);
     if (!photo) {
       return NextResponse.json({ success: false, error: 'Photo non trouvée' }, { status: 404 });
     }
@@ -14,10 +15,11 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     const body = await request.json();
-    const photo = dataManager.updatePhoto(params.id, body);
+    const photo = dataManager.updatePhoto(id, body);
     if (!photo) {
       return NextResponse.json({ success: false, error: 'Photo non trouvée' }, { status: 404 });
     }
@@ -27,9 +29,10 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const success = dataManager.deletePhoto(params.id);
+    const { id } = await params;
+    const success = dataManager.deletePhoto(id);
     if (!success) {
       return NextResponse.json({ success: false, error: 'Photo non trouvée' }, { status: 404 });
     }
@@ -38,6 +41,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     return NextResponse.json({ success: false, error: 'Erreur lors de la suppression de la photo' }, { status: 500 });
   }
 }
+
 
 
 

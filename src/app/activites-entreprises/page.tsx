@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
-import { Building, Users, TrendingUp, Target, Award, CheckCircle, ArrowRight, Briefcase, Heart, HandHeart } from 'lucide-react'
+import { Building, Users, TrendingUp, Target, Award, CheckCircle, ArrowRight, Briefcase, Heart } from 'lucide-react'
 
 export default function ActivitesEntreprises() {
   const services = [
@@ -44,7 +44,7 @@ export default function ActivitesEntreprises() {
       color: "from-purple-500 to-pink-500"
     },
     {
-      icon: HandHeart,
+      icon: Heart,
       title: "Partenariats RSE",
       description: "Engagement sociétal et responsabilité d'entreprise",
       details: [

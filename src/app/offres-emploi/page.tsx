@@ -181,7 +181,7 @@ export default function OffresEmploiPage() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {!loading && filteredOffers.map((offer, index) => (
                   <motion.div
-                    key={offer._id}
+                    key={offer.id}
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: index * 0.1 }}
