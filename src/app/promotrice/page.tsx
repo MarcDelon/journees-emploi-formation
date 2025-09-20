@@ -56,7 +56,8 @@ export default function PromotricePage() {
                       <img 
                         src="/images/promotrice.jpeg" 
                         alt="Jessica Mambo - Promotrice" 
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover object-top"
+                        style={{ objectPosition: 'center 20%' }}
                       />
                     </div>
                     <h3 className="text-2xl font-bold text-center text-egalite-dark mb-4">
