@@ -70,3 +70,4 @@ export const getPartenaires = async (): Promise<Partenaire[]> => {
 
 
 
+

@@ -200,46 +200,80 @@ export default function TypologieCandidatsPage() {
       <main className="pt-24">
         {/* Hero Section */}
         <section className="relative min-h-[calc(100vh-120px)] overflow-hidden flex items-center">
-          {/* Background Image */}
+          {/* Background Image avec overlay amélioré */}
           <div className="absolute inset-0">
             <Image
               src="/images/logo-evenement.jpg.jpeg"
               alt="Typologie des candidats"
               fill
-              className="object-cover opacity-10"
+              className="object-cover opacity-15"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-900/40 to-orange-500/40"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 via-purple-900/40 to-orange-600/50"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
           </div>
 
-          {/* Dynamic floating shapes */}
+          {/* Motif SVG en arrière-plan */}
+          <div className="absolute inset-0 opacity-20">
+            <img 
+              src="/images/svg/hero-pattern.svg" 
+              alt="" 
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Dynamic floating shapes améliorés */}
           <div className="absolute inset-0 pointer-events-none">
             <motion.div
-              className="absolute -left-10 top-24 w-64 h-64 rounded-full bg-blue-400/15 blur-2xl"
-              animate={{ y: [0, -30, 0], x: [0, 15, 0] }}
+              className="absolute -left-10 top-24 w-64 h-64 rounded-full bg-gradient-to-r from-blue-400/20 to-blue-600/20 blur-3xl"
+              animate={{ y: [0, -30, 0], x: [0, 15, 0], scale: [1, 1.1, 1] }}
               transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
             />
             <motion.div
-              className="absolute right-10 bottom-24 w-72 h-72 rounded-full bg-orange-400/15 blur-2xl"
-              animate={{ y: [0, 25, 0], x: [0, -20, 0] }}
+              className="absolute right-10 bottom-24 w-72 h-72 rounded-full bg-gradient-to-r from-orange-400/20 to-orange-600/20 blur-3xl"
+              animate={{ y: [0, 25, 0], x: [0, -20, 0], scale: [1, 1.05, 1] }}
               transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
             />
             <motion.div
-              className="absolute left-1/2 -translate-x-1/2 top-10 w-40 h-40 rounded-full bg-white/10 ring-1 ring-white/20"
-              animate={{ scale: [1, 1.08, 1], opacity: [0.35, 0.6, 0.35] }}
+              className="absolute left-1/2 -translate-x-1/2 top-10 w-40 h-40 rounded-full bg-white/15 ring-2 ring-white/30 backdrop-blur-sm"
+              animate={{ scale: [1, 1.08, 1], opacity: [0.35, 0.6, 0.35], rotate: [0, 5, -5, 0] }}
               transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
             />
+
+            {/* Particules flottantes améliorées */}
+            {[...Array(8)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-2 h-2 bg-white/30 rounded-full"
+                style={{
+                  left: `${15 + i * 12}%`,
+                  top: `${20 + (i % 3) * 25}%`,
+                }}
+                animate={{
+                  y: [0, -50, 0],
+                  opacity: [0.2, 0.8, 0.2],
+                  scale: [0.8, 1.2, 0.8]
+                }}
+                transition={{
+                  duration: 4 + i * 0.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: i * 0.3
+                }}
+              />
+            ))}
 
             {symbolItems.map((s, i) => (
               <motion.span
                 key={i}
-                className={`absolute ${s.size} font-bold text-white/40 select-none`}
+                className={`absolute ${s.size} font-bold text-white/50 select-none drop-shadow-lg`}
                 style={{ left: s.left, top: s.top }}
                 initial={{ opacity: 0.2 }}
                 animate={{
                   y: [0, -18, 0],
                   rotate: [0, 10, -10, 0],
-                  opacity: [0.15, 0.4, 0.15],
+                  opacity: [0.15, 0.5, 0.15],
+                  scale: [0.9, 1.1, 0.9]
                 }}
                 transition={{ duration: s.duration, repeat: Infinity, ease: 'easeInOut', delay: s.delay }}
               >
@@ -249,13 +283,14 @@ export default function TypologieCandidatsPage() {
             {extraSymbols.map((s, i) => (
               <motion.span
                 key={`e-${i}`}
-                className={`absolute ${s.size} font-semibold text-white/25 select-none`}
+                className={`absolute ${s.size} font-semibold text-white/30 select-none drop-shadow-md`}
                 style={{ left: s.left, top: s.top }}
                 initial={{ opacity: 0.15 }}
                 animate={{
                   y: [0, 12, 0],
                   rotate: [0, -8, 8, 0],
-                  opacity: [0.12, 0.3, 0.12],
+                  opacity: [0.12, 0.4, 0.12],
+                  scale: [0.8, 1.05, 0.8]
                 }}
                 transition={{ duration: s.duration, repeat: Infinity, ease: 'easeInOut', delay: s.delay }}
               >
@@ -266,29 +301,75 @@ export default function TypologieCandidatsPage() {
           
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="relative z-10"
             >
-              <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-6 rounded-2xl inline-block mb-8 shadow-2xl backdrop-blur-sm border border-white/20">
-                <h1 className="text-4xl md:text-6xl font-bold text-center">
-                TYPOLOGIE DE CANDIDATS
-              </h1>
-                <div className="w-full h-1 bg-white/30 rounded-full mt-4"></div>
+              {/* Badge avec effet de brillance */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="inline-flex items-center space-x-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2 rounded-full mb-8 shadow-2xl backdrop-blur-sm border border-white/20 relative overflow-hidden"
+              >
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  animate={{ x: ["-100%", "100%"] }}
+                  transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                />
+                <span className="text-sm font-semibold relative z-10">Analyse des participants</span>
+              </motion.div>
+
+              <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-8 rounded-3xl inline-block mb-8 shadow-2xl backdrop-blur-sm border border-white/20 relative overflow-hidden">
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+                  animate={{ x: ["-100%", "100%"] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
+                />
+                <h1 className="text-4xl md:text-6xl font-bold text-center relative z-10">
+                  TYPOLOGIE DE CANDIDATS
+                </h1>
+                <div className="w-full h-1 bg-white/40 rounded-full mt-4 relative z-10"></div>
               </div>
             </motion.div>
             
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xl text-white max-w-3xl mx-auto relative z-10 font-medium drop-shadow-lg"
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-xl text-white max-w-3xl mx-auto relative z-10 font-medium drop-shadow-lg mb-8"
             >
               Découvrez le profil détaillé des participants aux Journées de l'Emploi et de la Formation
             </motion.p>
+
+            {/* Statistiques rapides dans le hero */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
+            >
+              {[
+                { number: "100", label: "Candidats analysés", color: "text-blue-300" },
+                { number: "4", label: "Tranches d'âge", color: "text-orange-300" },
+                { number: "7", label: "Niveaux d'étude", color: "text-purple-300" },
+                { number: "13%", label: "Handicapés", color: "text-green-300" }
+              ].map((stat, index) => (
+                <motion.div
+                  key={index}
+                  className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20"
+                  whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.15)" }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                >
+                  <div className={`text-2xl font-bold ${stat.color} mb-1`}>{stat.number}</div>
+                  <div className="text-white/80 text-sm">{stat.label}</div>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
-          {/* Wave separator */}
+          
+          {/* Wave separator amélioré */}
           <div className="absolute bottom-0 left-0 right-0" aria-hidden="true">
             <svg viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg" className="w-full h-24 text-white">
               <path fill="currentColor" d="M0,64L60,69.3C120,75,240,85,360,96C480,107,600,117,720,106.7C840,96,960,64,1080,53.3C1200,43,1320,53,1380,58.7L1440,64L1440,120L1380,120C1320,120,1200,120,1080,120C960,120,840,120,720,120C600,120,480,120,360,120C240,120,120,120,60,120L0,120Z" />
@@ -318,100 +399,178 @@ export default function TypologieCandidatsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="mb-12"
+              className="mb-16"
             >
-              <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">Répartition par Âges</h2>
+              {/* En-tête de section amélioré */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className="text-center mb-12"
+              >
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-full mb-6 shadow-lg"
+                >
+                  <span className="text-sm font-semibold">Analyse démographique</span>
+                </motion.div>
+                <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-800 mb-4">
+                  Répartition par Âges
+                </h2>
+                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                  Découvrez la distribution des participants selon leur tranche d'âge
+                </p>
+              </motion.div>
+
               <div className="flex flex-col lg:flex-row items-start gap-8">
-                {/* Petit bloc à gauche avec les statistiques */}
+                {/* Carte de statistiques améliorée */}
                 <div className="w-full lg:w-1/3">
-                  <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-6 border border-white/20 relative overflow-hidden transform-gpu" style={{ transform: 'perspective(1000px) rotateX(5deg) rotateY(-2deg)' }}>
-                    {/* Background Pattern */}
-                    <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-100 to-transparent rounded-full -translate-y-10 translate-x-10"></div>
-                    <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-tr from-orange-100 to-transparent rounded-full translate-y-8 -translate-x-8"></div>
+                  <motion.div 
+                    className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20 relative overflow-hidden group"
+                    whileHover={{ scale: 1.02, y: -5 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  >
+                    {/* Background Pattern amélioré */}
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-100 to-transparent rounded-full -translate-y-12 translate-x-12"></div>
+                    <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-orange-100 to-transparent rounded-full translate-y-10 -translate-x-10"></div>
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-r from-purple-50 to-blue-50 rounded-full opacity-30"></div>
+                    
+                    {/* Effet de brillance au hover */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-3xl"
+                      initial={{ x: "-100%" }}
+                      whileHover={{ x: "100%" }}
+                      transition={{ duration: 0.6 }}
+                    />
                     
                     <div className="relative z-10">
+                      {/* Icône et titre */}
+                      <div className="flex items-center space-x-3 mb-6">
+                        <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                          <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-800">Distribution par âge</h3>
+                      </div>
+
                       <motion.div
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, amount: 0.4 }}
                         variants={containerVariants}
-                        className="transform-gpu"
-                        style={{ transform: 'perspective(800px) rotateX(3deg)' }}
                       >
                         <motion.div variants={itemVariants}>
-                        <ResponsiveContainer width="100%" height={300}>
-                    <PieChart>
-                      <Pie
-                        data={ageData}
-                        cx="50%"
-                        cy="50%"
-                              innerRadius={50}
-                              outerRadius={100}
-                        paddingAngle={5}
-                        dataKey="value"
-                              isAnimationActive
-                              animationDuration={800}
-                      >
-                        {ageData.map((entry, index) => (
-                                <Cell 
-                                  key={`cell-${index}`} 
-                                  fill={`url(#gradient-${index})`}
-                                  stroke="rgba(0,0,0,0.1)"
-                                  strokeWidth={1}
-                                />
-                        ))}
-                      </Pie>
-                      <Tooltip formatter={(value) => [`${value}%`, 'Pourcentage']} />
-                            <defs>
-                              {ageData.map((entry, index) => (
-                                <linearGradient key={`gradient-${index}`} id={`gradient-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                                  <stop offset="0%" stopColor={entry.color} />
-                                  <stop offset="100%" stopColor={entry.color} stopOpacity={0.7} />
-                                </linearGradient>
-                              ))}
-                            </defs>
-                    </PieChart>
-                  </ResponsiveContainer>
+                          <ResponsiveContainer width="100%" height={300}>
+                            <PieChart>
+                              <Pie
+                                data={ageData}
+                                cx="50%"
+                                cy="50%"
+                                innerRadius={60}
+                                outerRadius={120}
+                                paddingAngle={5}
+                                dataKey="value"
+                                isAnimationActive
+                                animationDuration={1000}
+                              >
+                                {ageData.map((entry, index) => (
+                                  <Cell 
+                                    key={`cell-${index}`} 
+                                    fill={`url(#gradient-${index})`}
+                                    stroke="rgba(255,255,255,0.8)"
+                                    strokeWidth={2}
+                                  />
+                                ))}
+                              </Pie>
+                              <Tooltip 
+                                formatter={(value) => [`${value}%`, 'Pourcentage']}
+                                contentStyle={{ 
+                                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                  border: '1px solid #e5e7eb',
+                                  borderRadius: '12px',
+                                  boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)'
+                                }}
+                              />
+                              <defs>
+                                {ageData.map((entry, index) => (
+                                  <linearGradient key={`gradient-${index}`} id={`gradient-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor={entry.color} />
+                                    <stop offset="100%" stopColor={entry.color} stopOpacity={0.8} />
+                                  </linearGradient>
+                                ))}
+                              </defs>
+                            </PieChart>
+                          </ResponsiveContainer>
                         </motion.div>
                       </motion.div>
                       
-                      <motion.div className="space-y-2 mt-4" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }} variants={containerVariants}>
-                  {ageData.map((item, index) => (
+                      <motion.div className="space-y-3 mt-6" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }} variants={containerVariants}>
+                        {ageData.map((item, index) => (
                           <motion.div 
                             key={index} 
                             variants={itemVariants}
-                            className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
-                            whileHover={{ scale: 1.02, x: 3 }}
+                            className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-all duration-300 group/item"
+                            whileHover={{ scale: 1.02, x: 5 }}
                           >
-                            <div 
-                              className="w-6 h-6 rounded-full shadow-md"
-                        style={{ backgroundColor: item.color }}
-                      ></div>
-                            <span className="text-sm text-gray-700 font-medium">{item.name}: {item.value}%</span>
+                            <div className="flex items-center space-x-3">
+                              <div 
+                                className="w-4 h-4 rounded-full shadow-sm group-hover/item:scale-110 transition-transform duration-200"
+                                style={{ backgroundColor: item.color }}
+                              ></div>
+                              <span className="text-sm text-gray-700 font-medium">{item.name}</span>
+                            </div>
+                            <span className="text-sm font-bold text-gray-800 bg-gray-100 px-2 py-1 rounded-full">{item.value}%</span>
                           </motion.div>
                         ))}
                       </motion.div>
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
                 
-                {/* Texte à droite */}
+                {/* Contenu textuel amélioré */}
                 <div className="w-full lg:w-2/3">
-                  <motion.div className="relative rounded-3xl overflow-hidden min-h-[80vh]" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.35 }} variants={containerVariants}>
-                    <Image src="/images/group/age-group.svg" alt="" fill className="object-cover opacity-20" />
-                    <div className="relative z-10 space-y-6 p-6 md:p-8">
-                      <motion.div className="text-gray-600 leading-relaxed text-lg" variants={itemVariants}>
-                      <p className="mb-4">
-                        Les <span className="font-semibold text-blue-600">25–44 ans</span> constituent l’essentiel des participants, profils au cœur de l’activité professionnelle.
-                      </p>
-                      <p className="mb-6">
-                        Les <span className="font-semibold text-orange-600">18–24 ans</span> sont moins nombreux mais restent clés pour les stages et premiers emplois.
-                      </p>
+                  <motion.div 
+                    className="relative rounded-3xl overflow-hidden min-h-[500px] group" 
+                    initial="hidden" 
+                    whileInView="visible" 
+                    viewport={{ once: true, amount: 0.35 }} 
+                    variants={containerVariants}
+                    whileHover={{ scale: 1.01 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  >
+                    <Image src="/images/group/age-group.svg" alt="" fill className="object-cover opacity-15 group-hover:opacity-20 transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-white/60 to-orange-50/80"></div>
+                    <div className="relative z-10 space-y-8 p-8 md:p-10">
+                      <motion.div className="text-gray-700 leading-relaxed text-lg" variants={itemVariants}>
+                        <p className="mb-6 text-xl">
+                          Les <span className="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">25–44 ans</span> constituent l'essentiel des participants, profils au cœur de l'activité professionnelle.
+                        </p>
+                        <p className="mb-8 text-lg">
+                          Les <span className="font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded-lg">18–24 ans</span> sont moins nombreux mais restent clés pour les stages et premiers emplois.
+                        </p>
                       </motion.div>
                   
-                      <motion.div className="bg-gradient-to-r from-blue-50 to-orange-50 rounded-2xl p-6 border border-blue-200" variants={itemVariants}>
-                        <h3 className="text-xl font-semibold text-gray-800 mb-3">Analyse des tendances</h3>
-                        <p className="text-gray-700">Concentration forte sur la tranche la plus active: un ciblage pertinent pour les besoins des entreprises.</p>
+                      <motion.div 
+                        className="bg-gradient-to-r from-blue-50 to-orange-50 rounded-2xl p-8 border border-blue-200 shadow-lg relative overflow-hidden" 
+                        variants={itemVariants}
+                        whileHover={{ scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                      >
+                        <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-100 to-transparent rounded-full -translate-y-10 translate-x-10"></div>
+                        <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center space-x-2">
+                          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                          <span>Analyse des tendances</span>
+                        </h3>
+                        <p className="text-gray-700 text-lg leading-relaxed">Concentration forte sur la tranche la plus active: un ciblage pertinent pour les besoins des entreprises.</p>
                       </motion.div>
                     </div>
                   </motion.div>
@@ -425,93 +584,178 @@ export default function TypologieCandidatsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="mb-12"
+              className="mb-16"
             >
-              <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">Typologie des Candidats</h2>
+              {/* En-tête de section amélioré */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className="text-center mb-12"
+              >
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-2 rounded-full mb-6 shadow-lg"
+                >
+                  <span className="text-sm font-semibold">Profil des participants</span>
+                </motion.div>
+                <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-800 mb-4">
+                  Typologie des Candidats
+                </h2>
+                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                  Comprenez les motivations et le statut des participants
+                </p>
+              </motion.div>
+
               <div className="flex flex-col lg:flex-row items-start gap-8">
-                {/* Petit bloc à gauche avec les statistiques */}
+                {/* Carte de statistiques améliorée */}
                 <div className="w-full lg:w-1/3">
-                  <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-6 border border-white/20 relative overflow-hidden transform-gpu" style={{ transform: 'perspective(1000px) rotateX(5deg) rotateY(2deg)' }}>
-                    {/* Background Pattern */}
-                    <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-purple-100 to-transparent rounded-full -translate-y-10 -translate-x-10"></div>
-                    <div className="absolute bottom-0 right-0 w-16 h-16 bg-gradient-to-tr from-green-100 to-transparent rounded-full translate-y-8 translate-x-8"></div>
+                  <motion.div 
+                    className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20 relative overflow-hidden group"
+                    whileHover={{ scale: 1.02, y: -5 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  >
+                    {/* Background Pattern amélioré */}
+                    <div className="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-purple-100 to-transparent rounded-full -translate-y-12 -translate-x-12"></div>
+                    <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tr from-green-100 to-transparent rounded-full translate-y-10 translate-x-10"></div>
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-r from-purple-50 to-green-50 rounded-full opacity-30"></div>
+                    
+                    {/* Effet de brillance au hover */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-3xl"
+                      initial={{ x: "-100%" }}
+                      whileHover={{ x: "100%" }}
+                      transition={{ duration: 0.6 }}
+                    />
                     
                     <div className="relative z-10">
-                      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }} variants={containerVariants} className="transform-gpu" style={{ transform: 'perspective(800px) rotateX(3deg)' }}>
-                        <motion.div variants={itemVariants}>
-                        <ResponsiveContainer width="100%" height={300}>
-                    <PieChart>
-                      <Pie
-                        data={typologieData}
-                        cx="50%"
-                        cy="50%"
-                              innerRadius={50}
-                              outerRadius={100}
-                        paddingAngle={5}
-                        dataKey="value"
-                              isAnimationActive
-                              animationDuration={800}
+                      {/* Icône et titre */}
+                      <div className="flex items-center space-x-3 mb-6">
+                        <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                          <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z" />
+                          </svg>
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-800">Types de candidats</h3>
+                      </div>
+
+                      <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.4 }}
+                        variants={containerVariants}
                       >
-                        {typologieData.map((entry, index) => (
-                                <Cell 
-                                  key={`cell-${index}`} 
-                                  fill={`url(#gradient-type-${index})`}
-                                  stroke="rgba(0,0,0,0.1)"
-                                  strokeWidth={1}
-                                />
-                        ))}
-                      </Pie>
-                      <Tooltip formatter={(value) => [`${value}%`, 'Pourcentage']} />
-                            <defs>
-                              {typologieData.map((entry, index) => (
-                                <linearGradient key={`gradient-type-${index}`} id={`gradient-type-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                                  <stop offset="0%" stopColor={entry.color} />
-                                  <stop offset="100%" stopColor={entry.color} stopOpacity={0.7} />
-                                </linearGradient>
-                              ))}
-                            </defs>
-                    </PieChart>
-                  </ResponsiveContainer>
+                        <motion.div variants={itemVariants}>
+                          <ResponsiveContainer width="100%" height={300}>
+                            <PieChart>
+                              <Pie
+                                data={typologieData}
+                                cx="50%"
+                                cy="50%"
+                                innerRadius={60}
+                                outerRadius={120}
+                                paddingAngle={5}
+                                dataKey="value"
+                                isAnimationActive
+                                animationDuration={1000}
+                              >
+                                {typologieData.map((entry, index) => (
+                                  <Cell 
+                                    key={`cell-${index}`} 
+                                    fill={`url(#gradient-type-${index})`}
+                                    stroke="rgba(255,255,255,0.8)"
+                                    strokeWidth={2}
+                                  />
+                                ))}
+                              </Pie>
+                              <Tooltip 
+                                formatter={(value) => [`${value}%`, 'Pourcentage']}
+                                contentStyle={{ 
+                                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                  border: '1px solid #e5e7eb',
+                                  borderRadius: '12px',
+                                  boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)'
+                                }}
+                              />
+                              <defs>
+                                {typologieData.map((entry, index) => (
+                                  <linearGradient key={`gradient-type-${index}`} id={`gradient-type-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor={entry.color} />
+                                    <stop offset="100%" stopColor={entry.color} stopOpacity={0.8} />
+                                  </linearGradient>
+                                ))}
+                              </defs>
+                            </PieChart>
+                          </ResponsiveContainer>
                         </motion.div>
                       </motion.div>
                       
-                      <motion.div className="space-y-2 mt-4" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }} variants={containerVariants}>
-                  {typologieData.map((item, index) => (
+                      <motion.div className="space-y-3 mt-6" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }} variants={containerVariants}>
+                        {typologieData.map((item, index) => (
                           <motion.div 
                             key={index} 
                             variants={itemVariants}
-                            className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
-                            whileHover={{ scale: 1.02, x: 3 }}
+                            className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-all duration-300 group/item"
+                            whileHover={{ scale: 1.02, x: 5 }}
                           >
-                            <div 
-                              className="w-6 h-6 rounded-full shadow-md"
-                        style={{ backgroundColor: item.color }}
-                      ></div>
-                            <span className="text-sm text-gray-700 font-medium">{item.name}: {item.value}%</span>
+                            <div className="flex items-center space-x-3">
+                              <div 
+                                className="w-4 h-4 rounded-full shadow-sm group-hover/item:scale-110 transition-transform duration-200"
+                                style={{ backgroundColor: item.color }}
+                              ></div>
+                              <span className="text-sm text-gray-700 font-medium">{item.name}</span>
+                            </div>
+                            <span className="text-sm font-bold text-gray-800 bg-gray-100 px-2 py-1 rounded-full">{item.value}%</span>
                           </motion.div>
                         ))}
                       </motion.div>
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
                 
-                {/* Texte à droite */}
+                {/* Contenu textuel amélioré */}
                 <div className="w-full lg:w-2/3">
-                  <motion.div className="relative rounded-3xl overflow-hidden min-h-[80vh]" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.35 }} variants={containerVariants}>
-                    <Image src="/images/group/typologie-group.svg" alt="" fill className="object-cover opacity-20" />
-                    <div className="relative z-10 space-y-6 p-6 md:p-8">
-                      <motion.div className="text-gray-600 leading-relaxed text-lg" variants={itemVariants}>
-                      <p className="mb-4">
-                        Majorité <span className="font-semibold text-orange-600">en recherche d’emploi</span>, avec un vivier important d’<span className="font-semibold text-blue-600">étudiants</span> et de <span className="font-semibold text-cyan-600">premiers emplois</span>.
-                      </p>
-                      <p className="mb-6">
-                        Une part s’oriente vers la <span className="font-semibold text-green-600">formation</span> pour renforcer l’employabilité.
-                      </p>
+                  <motion.div 
+                    className="relative rounded-3xl overflow-hidden min-h-[500px] group" 
+                    initial="hidden" 
+                    whileInView="visible" 
+                    viewport={{ once: true, amount: 0.35 }} 
+                    variants={containerVariants}
+                    whileHover={{ scale: 1.01 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  >
+                    <Image src="/images/group/typologie-group.svg" alt="" fill className="object-cover opacity-15 group-hover:opacity-20 transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-50/80 via-white/60 to-green-50/80"></div>
+                    <div className="relative z-10 space-y-8 p-8 md:p-10">
+                      <motion.div className="text-gray-700 leading-relaxed text-lg" variants={itemVariants}>
+                        <p className="mb-6 text-xl">
+                          Majorité <span className="font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded-lg">en recherche d'emploi</span>, avec un vivier important d'<span className="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">étudiants</span> et de <span className="font-bold text-cyan-600 bg-cyan-50 px-2 py-1 rounded-lg">premiers emplois</span>.
+                        </p>
+                        <p className="mb-8 text-lg">
+                          Une part s'oriente vers la <span className="font-bold text-green-600 bg-green-50 px-2 py-1 rounded-lg">formation</span> pour renforcer l'employabilité.
+                        </p>
                       </motion.div>
                   
-                      <motion.div className="bg-gradient-to-r from-purple-50 to-green-50 rounded-2xl p-6 border border-purple-200" variants={itemVariants}>
-                        <h3 className="text-xl font-semibold text-gray-800 mb-3">Stratégie de ciblage</h3>
-                        <p className="text-gray-700">Diversité utile: recrutement direct, stages et alternance sont facilités.</p>
+                      <motion.div 
+                        className="bg-gradient-to-r from-purple-50 to-green-50 rounded-2xl p-8 border border-purple-200 shadow-lg relative overflow-hidden" 
+                        variants={itemVariants}
+                        whileHover={{ scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                      >
+                        <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-purple-100 to-transparent rounded-full -translate-y-10 translate-x-10"></div>
+                        <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center space-x-2">
+                          <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
+                            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                          <span>Stratégie de ciblage</span>
+                        </h3>
+                        <p className="text-gray-700 text-lg leading-relaxed">Diversité utile: recrutement direct, stages et alternance sont facilités.</p>
                       </motion.div>
                     </div>
                   </motion.div>
@@ -525,9 +769,32 @@ export default function TypologieCandidatsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
-              className="mb-12"
+              className="mb-16"
             >
-              <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">Répartition par Niveau d'Étude</h2>
+              {/* En-tête de section amélioré */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className="text-center mb-12"
+              >
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white px-6 py-2 rounded-full mb-6 shadow-lg"
+                >
+                  <span className="text-sm font-semibold">Formation et qualification</span>
+                </motion.div>
+                <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-800 mb-4">
+                  Répartition par Niveau d'Étude
+                </h2>
+                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                  Explorez la diversité des formations et qualifications des participants
+                </p>
+              </motion.div>
               <div className="flex flex-col lg:flex-row items-start gap-8">
                 {/* Petit bloc à gauche avec les statistiques */}
                 <div className="w-full lg:w-1/3">
@@ -607,41 +874,106 @@ export default function TypologieCandidatsPage() {
               </div>
             </motion.div>
 
-            {/* Section Accessibilité */}
+            {/* Section Accessibilité améliorée */}
             <motion.div
               id="accessibilite"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.0 }}
-              className="bg-gradient-to-r from-purple-600 to-purple-800 rounded-3xl shadow-2xl p-8 text-white text-center relative overflow-hidden"
+              className="relative"
             >
-              {/* Background Pattern */}
-              <div className="absolute inset-0 opacity-10">
-                <div className="absolute inset-0" style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M20 20c0-11.046-8.954-20-20-20v20h20z'/%3E%3C/g%3E%3C/svg%3E")`,
-                  backgroundSize: '40px 40px'
-                }} />
-              </div>
-              
-              <div className="relative z-10">
-              <div className="flex items-center justify-center mb-6">
+              {/* En-tête de section */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className="text-center mb-12"
+              >
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-full mb-6 shadow-lg"
+                >
+                  <span className="text-sm font-semibold">Inclusion et diversité</span>
+                </motion.div>
+                <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-800 mb-4">
+                  Engagement pour l'Accessibilité
+                </h2>
+                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                  Notre engagement en faveur de l'inclusion et de l'accessibilité
+                </p>
+              </motion.div>
+
+              <div className="bg-gradient-to-r from-green-600 to-green-800 rounded-3xl shadow-2xl p-12 text-white text-center relative overflow-hidden group">
+                {/* Background Pattern amélioré */}
+                <div className="absolute inset-0 opacity-20">
+                  <div className="absolute inset-0" style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/svg%3E")`,
+                    backgroundSize: '60px 60px'
+                  }} />
+                </div>
+
+                {/* Éléments décoratifs */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-12 -translate-x-12"></div>
+                
+                {/* Effet de brillance */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+                  animate={{ x: ["-100%", "100%"] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: 1 }}
+                />
+                
+                <div className="relative z-10">
                   <motion.div 
-                    className="bg-white rounded-full p-6 shadow-2xl"
-                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    className="flex items-center justify-center mb-8"
+                    whileHover={{ scale: 1.05 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
-                  <svg className="w-16 h-16 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
+                    <div className="bg-white rounded-full p-8 shadow-2xl group-hover:shadow-3xl transition-all duration-300">
+                      <svg className="w-20 h-20 text-green-600 group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                    </div>
                   </motion.div>
-              </div>
-              <h2 className="text-3xl font-bold mb-4">Engagement pour l'Accessibilité</h2>
-              <p className="text-xl mb-4">
-                13% de nos candidats sont en situation de handicap
-              </p>
-              <p className="text-lg opacity-90">
-                Nous nous engageons à créer un environnement inclusif et accessible pour tous les participants
-              </p>
+                  
+                  <h3 className="text-4xl font-bold mb-6">Inclusion et Accessibilité</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                    <motion.div 
+                      className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+                      whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.15)" }}
+                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    >
+                      <div className="text-3xl font-bold text-white mb-2">13%</div>
+                      <div className="text-white/90">Candidats en situation de handicap</div>
+                    </motion.div>
+                    <motion.div 
+                      className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+                      whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.15)" }}
+                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    >
+                      <div className="text-3xl font-bold text-white mb-2">100%</div>
+                      <div className="text-white/90">Accessibilité garantie</div>
+                    </motion.div>
+                    <motion.div 
+                      className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+                      whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.15)" }}
+                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    >
+                      <div className="text-3xl font-bold text-white mb-2">24/7</div>
+                      <div className="text-white/90">Support inclusif</div>
+                    </motion.div>
+                  </div>
+                  
+                  <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+                    Nous nous engageons à créer un environnement inclusif et accessible pour tous les participants, 
+                    en garantissant l'égalité des chances et l'accès à toutes les opportunités.
+                  </p>
+                </div>
               </div>
             </motion.div>
 
