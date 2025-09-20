@@ -53,10 +53,10 @@ export default function PartenairesSection() {
         </div>
 
         {/* Conteneur 3D pour la roue */}
-        <div className="flex justify-center items-center h-96 perspective-1000 overflow-hidden">
+        <div className="flex justify-center items-center h-[500px] perspective-1000 overflow-hidden">
           <div 
             ref={wheelRef}
-            className="relative w-80 h-40 transform-style-preserve-3d"
+            className="relative w-[600px] h-[300px] transform-style-preserve-3d"
             style={{
               transformStyle: 'preserve-3d',
               animation: 'none' // Désactiver l'animation CSS pour utiliser JS
@@ -64,14 +64,14 @@ export default function PartenairesSection() {
           >
             {duplicatedLogos.map((logo, index) => {
               const angle = (360 / logos.length) * index;
-              const radius = 150; // Rayon de la roue réduit
+              const radius = 200; // Rayon de la roue agrandi
               const x = Math.cos((angle * Math.PI) / 180) * radius;
               const z = Math.sin((angle * Math.PI) / 180) * radius;
               
               return (
                 <div
                   key={`${logo.id}-${index}`}
-                  className="absolute w-28 h-16 bg-white/95 border border-gray-200 rounded-lg flex items-center justify-center shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-110"
+                  className="absolute w-40 h-24 bg-white/95 border border-gray-200 rounded-xl flex items-center justify-center shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-110"
                   style={{
                     transform: `translateX(${x}px) translateZ(${z}px) rotateY(${-angle}deg)`,
                     transformStyle: 'preserve-3d',
@@ -79,19 +79,19 @@ export default function PartenairesSection() {
                     transitionDelay: `${index * 30}ms`,
                     left: '50%',
                     top: '50%',
-                    marginLeft: '-56px', // -w/2
-                    marginTop: '-32px'   // -h/2
+                    marginLeft: '-80px', // -w/2
+                    marginTop: '-48px'   // -h/2
                   }}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={`${logo.src}?v=2`}
                     alt={logo.alt}
-                    width={100}
-                    height={50}
+                    width={140}
+                    height={80}
                     loading="lazy"
                     decoding="async"
-                    className="max-w-[85%] max-h-[75%] object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                    className="max-w-[90%] max-h-[85%] object-contain grayscale hover:grayscale-0 transition-all duration-300"
                   />
                 </div>
               );
