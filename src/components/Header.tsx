@@ -43,33 +43,33 @@ const Header = () => {
       }}
     >
       <div className="container-custom">
-        <div className="flex items-center justify-between h-16 sm:h-18 md:h-20 stable-width no-layout-shift" style={{ minHeight: '4rem' }}>
+        <div className="flex items-center justify-between h-14 sm:h-16 md:h-18 lg:h-20 stable-width no-layout-shift" style={{ minHeight: '3.5rem' }}>
           {/* Logo */}
-          <Link href="/home" className="flex items-center space-x-2 sm:space-x-3 prevent-shrink no-layout-shift">
-            <div className="relative no-layout-shift" style={{ width: '120px', height: '45px' }}>
+          <Link href="/home" className="flex items-center space-x-1 sm:space-x-2 md:space-x-3 prevent-shrink no-layout-shift">
+            <div className="relative no-layout-shift" style={{ width: '80px', height: '30px' }}>
               <Image 
                 src="/images/logo-evenement.jpg.jpeg" 
                 alt="Journées de l'Emploi et de la Formation" 
-                width={120} 
-                height={45}
-                className="h-10 sm:h-12 w-auto transition-all duration-300"
+                width={80} 
+                height={30}
+                className="h-8 sm:h-10 md:h-12 w-auto transition-all duration-300"
                 style={{ 
-                  maxWidth: '120px',
-                  maxHeight: '45px',
+                  maxWidth: '80px',
+                  maxHeight: '30px',
                   objectFit: 'contain'
                 }}
                 priority
               />
             </div>
-            <div className="hidden xs:flex flex-col stable-dimensions">
-              <span className="text-xs sm:text-sm font-semibold text-event-orange bg-event-orange/10 px-2 py-1 rounded backdrop-blur-sm whitespace-nowrap">
+            <div className="hidden sm:flex flex-col stable-dimensions">
+              <span className="text-xs sm:text-sm font-semibold text-event-orange bg-event-orange/10 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded backdrop-blur-sm whitespace-nowrap">
                 6e ÉDITION
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center flex-nowrap whitespace-nowrap space-x-10 xl:space-x-14">
+          <nav className="hidden lg:flex items-center flex-nowrap whitespace-nowrap space-x-6 xl:space-x-8">
             {navItems.map((item, index) => (
               <motion.div
                 key={item.name}
@@ -79,7 +79,7 @@ const Header = () => {
               >
                 <Link
                   href={item.href}
-                  className="text-gray-900 hover:text-event-blue transition-all duration-200 font-medium relative group whitespace-nowrap"
+                  className="text-gray-900 hover:text-event-blue transition-all duration-200 font-medium relative group whitespace-nowrap text-sm xl:text-base"
                 >
                   {item.name}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-event-blue group-hover:w-full transition-all duration-300"></span>
@@ -93,7 +93,7 @@ const Header = () => {
           {/* Mobile Menu Button */}
           <motion.button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-2 text-gray-900 hover:text-event-blue transition-all duration-200 rounded-lg hover:bg-gray-100/80 backdrop-blur-sm"
+            className="lg:hidden p-1.5 sm:p-2 text-gray-900 hover:text-event-blue transition-all duration-200 rounded-lg hover:bg-gray-100/80 backdrop-blur-sm"
             whileTap={{ scale: 0.95 }}
             aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
           >
@@ -134,7 +134,7 @@ const Header = () => {
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
             className="lg:hidden bg-white/95 backdrop-blur-md border-t border-gray-200/50 shadow-lg"
           >
-            <div className="container-custom py-6">
+            <div className="container-custom py-4 sm:py-6">
               <nav className="flex flex-col space-y-1">
                 {navItems.map((item, index) => (
                   <motion.div
@@ -146,14 +146,14 @@ const Header = () => {
                     <Link
                       href={item.href}
                       onClick={() => setIsOpen(false)}
-                      className="block text-gray-900 hover:text-event-blue hover:bg-gray-50 transition-all duration-200 font-medium py-3 px-4 rounded-lg"
+                      className="block text-gray-900 hover:text-event-blue hover:bg-gray-50 transition-all duration-200 font-medium py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg text-sm sm:text-base"
                     >
                       {item.name}
                     </Link>
                   </motion.div>
                 ))}
                 <motion.div 
-                  className="pt-4"
+                  className="pt-3 sm:pt-4"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: navItems.length * 0.1, duration: 0.3 }}
@@ -161,7 +161,7 @@ const Header = () => {
                   <Link
                     href="/journees-emploi?scroll=form"
                     onClick={() => setIsOpen(false)}
-                    className="btn-primary w-full text-center block py-3"
+                    className="btn-primary w-full text-center block py-2.5 sm:py-3 text-sm sm:text-base"
                   >
                     Participer
                   </Link>

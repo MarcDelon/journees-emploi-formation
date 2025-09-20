@@ -348,7 +348,7 @@ export default function TypologieCandidatsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
+              className="mobile-grid-1 mobile-gap max-w-4xl mx-auto"
             >
               {[
                 { number: "100", label: "Candidats analysés", color: "text-blue-300" },
@@ -358,12 +358,12 @@ export default function TypologieCandidatsPage() {
               ].map((stat, index) => (
                 <motion.div
                   key={index}
-                  className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20"
+                  className="bg-white/10 backdrop-blur-sm rounded-xl mobile-p border border-white/20"
                   whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.15)" }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  <div className={`text-2xl font-bold ${stat.color} mb-1`}>{stat.number}</div>
-                  <div className="text-white/80 text-sm">{stat.label}</div>
+                  <div className={`mobile-text-xl font-bold ${stat.color} mobile-mb`}>{stat.number}</div>
+                  <div className="text-white/80 mobile-text-sm text-center">{stat.label}</div>
                 </motion.div>
               ))}
             </motion.div>
@@ -418,19 +418,19 @@ export default function TypologieCandidatsPage() {
                 >
                   <span className="text-sm font-semibold">Analyse démographique</span>
                 </motion.div>
-                <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-800 mb-4">
+                <h2 className="mobile-text-3xl font-display font-bold text-gray-800 mobile-mb">
                   Répartition par Âges
                 </h2>
-                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                <p className="mobile-text-lg text-gray-600 max-w-2xl mx-auto">
                   Découvrez la distribution des participants selon leur tranche d'âge
                 </p>
               </motion.div>
 
-              <div className="flex flex-col lg:flex-row items-start gap-8">
+              <div className="mobile-flex-col mobile-gap items-start">
                 {/* Carte de statistiques améliorée */}
                 <div className="w-full lg:w-1/3">
                   <motion.div 
-                    className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20 relative overflow-hidden group"
+                    className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl mobile-p border border-white/20 relative overflow-hidden group"
                     whileHover={{ scale: 1.02, y: -5 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   >
@@ -603,19 +603,19 @@ export default function TypologieCandidatsPage() {
                 >
                   <span className="text-sm font-semibold">Profil des participants</span>
                 </motion.div>
-                <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-800 mb-4">
+                <h2 className="mobile-text-3xl font-display font-bold text-gray-800 mobile-mb">
                   Typologie des Candidats
                 </h2>
-                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                <p className="mobile-text-lg text-gray-600 max-w-2xl mx-auto">
                   Comprenez les motivations et le statut des participants
                 </p>
               </motion.div>
 
-              <div className="flex flex-col lg:flex-row items-start gap-8">
+              <div className="mobile-flex-col mobile-gap items-start">
                 {/* Carte de statistiques améliorée */}
                 <div className="w-full lg:w-1/3">
                   <motion.div 
-                    className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20 relative overflow-hidden group"
+                    className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl mobile-p border border-white/20 relative overflow-hidden group"
                     whileHover={{ scale: 1.02, y: -5 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   >
@@ -788,14 +788,14 @@ export default function TypologieCandidatsPage() {
                 >
                   <span className="text-sm font-semibold">Formation et qualification</span>
                 </motion.div>
-                <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-800 mb-4">
+                <h2 className="mobile-text-3xl font-display font-bold text-gray-800 mobile-mb">
                   Répartition par Niveau d'Étude
                 </h2>
-                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                <p className="mobile-text-lg text-gray-600 max-w-2xl mx-auto">
                   Explorez la diversité des formations et qualifications des participants
                 </p>
               </motion.div>
-              <div className="flex flex-col lg:flex-row items-start gap-8">
+              <div className="mobile-flex-col mobile-gap items-start">
                 {/* Petit bloc à gauche avec les statistiques */}
                 <div className="w-full lg:w-1/3">
                   <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-6 border border-white/20 relative overflow-hidden transform-gpu" style={{ transform: 'perspective(1000px) rotateX(5deg) rotateY(-1deg)' }}>
@@ -899,10 +899,10 @@ export default function TypologieCandidatsPage() {
                 >
                   <span className="text-sm font-semibold">Inclusion et diversité</span>
                 </motion.div>
-                <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-800 mb-4">
+                <h2 className="mobile-text-3xl font-display font-bold text-gray-800 mobile-mb">
                   Engagement pour l'Accessibilité
                 </h2>
-                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                <p className="mobile-text-lg text-gray-600 max-w-2xl mx-auto">
                   Notre engagement en faveur de l'inclusion et de l'accessibilité
                 </p>
               </motion.div>

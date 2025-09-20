@@ -117,20 +117,20 @@ const HeroSection = () => {
           contain: 'layout'
         }}
       >
-        <div className="text-center max-w-4xl mx-auto stable-dimensions" style={{ width: '100%' }}>
+        <div className="text-center max-w-4xl mx-auto stable-dimensions mobile-px" style={{ width: '100%' }}>
           {/* Titre principal avec effet de typewriter */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-egalite-dark mb-4 sm:mb-6 stable-dimensions"
+            className="mobile-text-3xl font-display font-bold text-egalite-dark mobile-mb stable-dimensions"
             style={{ lineHeight: '1.1' }}
           >
             <span className="text-gradient block">
               Journées de l'Emploi
             </span>
             <motion.span 
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-gray-700 block stable-dimensions -mt-2"
+              className="mobile-text-2xl text-gray-700 block stable-dimensions -mt-1 sm:-mt-2"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.2, ease: "easeOut" }}
@@ -145,7 +145,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.3, ease: "easeOut" }}
-            className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-600 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-2 stable-dimensions"
+            className="mobile-text-sm text-gray-600 mobile-mb max-w-2xl mx-auto leading-relaxed stable-dimensions"
             style={{ lineHeight: '1.5' }}
           >
             Un événement majeur qui rassemble jeunes talents, écoles de formation et entreprises. Découvrez des opportunités d'emploi, participez aux ateliers de formation et développez votre réseau professionnel lors de cette 6e édition des Journées de l'Emploi et de la Formation.
@@ -156,31 +156,31 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.4, ease: "easeOut" }}
-            className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4 lg:gap-8 mb-8 sm:mb-12"
+            className="mobile-flex-col mobile-gap mobile-mb justify-center"
           >
             <motion.div 
-              className="flex items-center justify-center space-x-2 text-gray-600 bg-white/50 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-lg border border-gray-200/50 text-sm sm:text-base"
+              className="flex items-center justify-center space-x-2 text-gray-600 bg-white/50 backdrop-blur-sm mobile-px py-2 rounded-lg border border-gray-200/50 mobile-text-sm"
               whileHover={{ scale: 1.05, backgroundColor: "rgba(135, 206, 235, 0.1)" }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
-              <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-egalite-blue" />
-              <span>12-14 novembre 2025</span>
+              <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-egalite-blue flex-shrink-0" />
+              <span className="text-center">12-14 novembre 2025</span>
             </motion.div>
             <motion.div 
-              className="flex items-center justify-center space-x-2 text-gray-600 bg-white/50 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-lg border border-gray-200/50 text-sm sm:text-base"
+              className="flex items-center justify-center space-x-2 text-gray-600 bg-white/50 backdrop-blur-sm mobile-px py-2 rounded-lg border border-gray-200/50 mobile-text-sm"
               whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 215, 0, 0.1)" }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
-              <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-egalite-yellow" />
-              <span>Douala, Cameroun</span>
+              <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-egalite-yellow flex-shrink-0" />
+              <span className="text-center">Douala, Cameroun</span>
             </motion.div>
             <motion.div 
-              className="flex items-center justify-center space-x-2 text-gray-600 bg-white/50 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-lg border border-gray-200/50 text-sm sm:text-base"
+              className="flex items-center justify-center space-x-2 text-gray-600 bg-white/50 backdrop-blur-sm mobile-px py-2 rounded-lg border border-gray-200/50 mobile-text-sm"
               whileHover={{ scale: 1.05, backgroundColor: "rgba(135, 206, 235, 0.1)" }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
-              <Users className="w-4 h-4 sm:w-5 sm:h-5 text-egalite-blue" />
-              <span>50+ Entreprises</span>
+              <Users className="w-4 h-4 sm:w-5 sm:h-5 text-egalite-blue flex-shrink-0" />
+              <span className="text-center">50+ Entreprises</span>
             </motion.div>
           </motion.div>
 
@@ -189,7 +189,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.5, ease: "easeOut" }}
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center"
+            className="mobile-flex-col mobile-gap justify-center items-center"
           >
             <motion.div
               whileHover={{ scale: 1.05 }}
@@ -199,7 +199,7 @@ const HeroSection = () => {
             >
               <Link
                 href="/home"
-                className="btn-primary group flex items-center justify-center space-x-2 relative overflow-hidden w-full sm:w-auto text-sm sm:text-base"
+                className="btn-primary group flex items-center justify-center space-x-2 relative overflow-hidden w-full sm:w-auto"
               >
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-egalite-blue to-blue-600"
@@ -220,7 +220,7 @@ const HeroSection = () => {
             >
               <Link
                 href="/journees-emploi?scroll=form"
-                className="btn-secondary group flex items-center justify-center space-x-2 relative overflow-hidden w-full sm:w-auto text-sm sm:text-base"
+                className="btn-secondary group flex items-center justify-center space-x-2 relative overflow-hidden w-full sm:w-auto"
               >
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-egalite-yellow to-yellow-500"
@@ -239,67 +239,67 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6, ease: "easeOut" }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 max-w-3xl mx-auto"
+            className="mobile-grid-1 mobile-gap mobile-mt max-w-3xl mx-auto"
           >
             <motion.div 
-              className="text-center bg-white/60 backdrop-blur-sm p-4 rounded-xl border border-gray-200/50"
+              className="text-center bg-white/60 backdrop-blur-sm mobile-p rounded-xl border border-gray-200/50"
               whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.8)" }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
               <motion.div 
-                className="text-3xl font-bold text-egalite-blue mb-2"
+                className="mobile-text-xl font-bold text-egalite-blue mobile-mb"
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.7 }}
               >
                 500+
               </motion.div>
-              <div className="text-sm text-gray-600">Offres d'emploi</div>
+              <div className="mobile-text-sm text-gray-600">Offres d'emploi</div>
             </motion.div>
             <motion.div 
-              className="text-center bg-white/60 backdrop-blur-sm p-4 rounded-xl border border-gray-200/50"
+              className="text-center bg-white/60 backdrop-blur-sm mobile-p rounded-xl border border-gray-200/50"
               whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.8)" }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
               <motion.div 
-                className="text-3xl font-bold text-egalite-yellow mb-2"
+                className="mobile-text-xl font-bold text-egalite-yellow mobile-mb"
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.8 }}
               >
                 50+
               </motion.div>
-              <div className="text-sm text-gray-600">Entreprises</div>
+              <div className="mobile-text-sm text-gray-600">Entreprises</div>
             </motion.div>
             <motion.div 
-              className="text-center bg-white/60 backdrop-blur-sm p-4 rounded-xl border border-gray-200/50"
+              className="text-center bg-white/60 backdrop-blur-sm mobile-p rounded-xl border border-gray-200/50"
               whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.8)" }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
               <motion.div 
-                className="text-3xl font-bold text-egalite-blue mb-2"
+                className="mobile-text-xl font-bold text-egalite-blue mobile-mb"
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.9 }}
               >
                 2000+
               </motion.div>
-              <div className="text-sm text-gray-600">Visiteurs attendus</div>
+              <div className="mobile-text-sm text-gray-600">Visiteurs attendus</div>
             </motion.div>
             <motion.div 
-              className="text-center bg-white/60 backdrop-blur-sm p-4 rounded-xl border border-gray-200/50"
+              className="text-center bg-white/60 backdrop-blur-sm mobile-p rounded-xl border border-gray-200/50"
               whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.8)" }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
               <motion.div 
-                className="text-3xl font-bold text-egalite-yellow mb-2"
+                className="mobile-text-xl font-bold text-egalite-yellow mobile-mb"
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ type: "spring", stiffness: 200, damping: 15, delay: 1.0 }}
               >
                 100%
               </motion.div>
-              <div className="text-sm text-gray-600">Gratuit</div>
+              <div className="mobile-text-sm text-gray-600">Gratuit</div>
             </motion.div>
           </motion.div>
         </div>

@@ -35,19 +35,19 @@
 
 @layer components {
   .container-custom {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8;
   }
 
   .btn-primary {
-    @apply bg-white hover:bg-gray-50 text-black font-semibold py-3 px-6 rounded-lg border-2 border-black transition-all duration-300 transform hover:scale-105;
+    @apply bg-white hover:bg-gray-50 text-black font-semibold py-2.5 px-4 sm:py-3 sm:px-6 rounded-lg border-2 border-black transition-all duration-300 transform hover:scale-105 text-sm sm:text-base;
   }
 
   .btn-secondary {
-    @apply bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105;
+    @apply bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold py-2.5 px-4 sm:py-3 sm:px-6 rounded-lg transition-all duration-300 transform hover:scale-105 text-sm sm:text-base;
   }
 
   .section-padding {
-    @apply py-16 md:py-24;
+    @apply py-12 sm:py-16 md:py-20 lg:py-24;
   }
 
   .text-gradient {
@@ -56,6 +56,71 @@
 
   .card-hover {
     @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-2;
+  }
+
+  /* Classes utilitaires pour mobile */
+  .mobile-padding {
+    @apply px-3 sm:px-4 md:px-6 lg:px-8;
+  }
+
+  .mobile-text-sm {
+    @apply text-sm sm:text-base md:text-lg;
+  }
+
+  .mobile-text-lg {
+    @apply text-lg sm:text-xl md:text-2xl;
+  }
+
+  .mobile-text-xl {
+    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl;
+  }
+
+  .mobile-text-2xl {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
+  }
+
+  .mobile-text-3xl {
+    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl;
+  }
+
+  .mobile-grid-1 {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+  }
+
+  .mobile-grid-2 {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
+  }
+
+  .mobile-flex-col {
+    @apply flex flex-col sm:flex-row;
+  }
+
+  .mobile-gap {
+    @apply gap-3 sm:gap-4 md:gap-6 lg:gap-8;
+  }
+
+  .mobile-space-y {
+    @apply space-y-4 sm:space-y-6 md:space-y-8;
+  }
+
+  .mobile-mb {
+    @apply mb-4 sm:mb-6 md:mb-8 lg:mb-12;
+  }
+
+  .mobile-mt {
+    @apply mt-4 sm:mt-6 md:mt-8 lg:mt-12;
+  }
+
+  .mobile-p {
+    @apply p-3 sm:p-4 md:p-6 lg:p-8;
+  }
+
+  .mobile-px {
+    @apply px-3 sm:px-4 md:px-6 lg:px-8;
+  }
+
+  .mobile-py {
+    @apply py-3 sm:py-4 md:py-6 lg:py-8;
   }
 }
 
