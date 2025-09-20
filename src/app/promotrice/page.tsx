@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Quote, Heart, Users } from 'lucide-react'
+import Image from 'next/image'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
@@ -51,8 +52,15 @@ export default function PromotricePage() {
               >
                 <div className="bg-gradient-to-br from-egalite-blue/20 to-egalite-yellow/20 rounded-2xl p-8">
                   <div className="bg-white rounded-xl p-6 shadow-lg">
-                    <div className="w-32 h-32 bg-gradient-to-br from-egalite-blue to-egalite-yellow rounded-full mx-auto mb-6 flex items-center justify-center">
-                      <Users className="w-16 h-16 text-white" />
+                    <div className="w-32 h-32 rounded-full mx-auto mb-6 overflow-hidden shadow-lg">
+                      <Image 
+                        src="/images/promotrice.jpeg" 
+                        alt="Jessica Mambo - Promotrice" 
+                        width={128} 
+                        height={128}
+                        className="w-full h-full object-cover"
+                        priority
+                      />
                     </div>
                     <h3 className="text-2xl font-bold text-center text-egalite-dark mb-4">
                       Portrait de la Promotrice
