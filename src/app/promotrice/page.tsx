@@ -52,14 +52,11 @@ export default function PromotricePage() {
               >
                 <div className="bg-gradient-to-br from-egalite-blue/20 to-egalite-yellow/20 rounded-2xl p-8">
                   <div className="bg-white rounded-xl p-6 shadow-lg">
-                    <div className="w-32 h-32 rounded-full mx-auto mb-6 overflow-hidden shadow-lg">
-                      <Image 
+                    <div className="w-32 h-32 rounded-full mx-auto mb-6 overflow-hidden shadow-lg bg-gradient-to-br from-egalite-blue to-egalite-yellow flex items-center justify-center">
+                      <img 
                         src="/images/promotrice.jpeg" 
                         alt="Jessica Mambo - Promotrice" 
-                        width={128} 
-                        height={128}
                         className="w-full h-full object-cover"
-                        priority
                       />
                     </div>
                     <h3 className="text-2xl font-bold text-center text-egalite-dark mb-4">
