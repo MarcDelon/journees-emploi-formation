@@ -27,7 +27,7 @@ export default function PartenairesSection() {
       let animationId: number;
       
       const animate = () => {
-        rotation += 0.3; // Vitesse de rotation plus douce
+        rotation += 0.15; // Vitesse de rotation plus lente et douce
         wheel.style.transform = `rotateY(${rotation}deg)`;
         animationId = requestAnimationFrame(animate);
       };
