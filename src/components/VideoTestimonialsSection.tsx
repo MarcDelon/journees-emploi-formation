@@ -270,8 +270,9 @@ const VideoTestimonialsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             viewport={{ once: true }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12"
+            className="flex justify-center mt-12"
           >
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl">
             {videoTestimonials.map((video, index) => (
               <motion.div
                 key={video.id}
@@ -307,6 +308,7 @@ const VideoTestimonialsSection = () => {
                 </div>
               </motion.div>
             ))}
+            </div>
           </motion.div>
 
 
