@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 export default function PartenairesSection() {
   // logos locaux (et faciles à mettre en cache)
@@ -10,38 +10,93 @@ export default function PartenairesSection() {
     alt: `Partenaire ${i + 1}`,
   }));
 
+  // Dupliquer les logos pour un défilement infini
+  const duplicatedLogos = [...logos, ...logos, ...logos];
+
   // petit effet d'apparition progressive pour le confort
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const wheelRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    setMounted(true);
+    
+    // Animation de rotation continue optimisée
+    if (wheelRef.current) {
+      const wheel = wheelRef.current;
+      let rotation = 0;
+      let animationId: number;
+      
+      const animate = () => {
+        rotation += 0.3; // Vitesse de rotation plus douce
+        wheel.style.transform = `rotateY(${rotation}deg)`;
+        animationId = requestAnimationFrame(animate);
+      };
+      
+      // Démarrer l'animation
+      animationId = requestAnimationFrame(animate);
+      
+      // Nettoyer l'animation au démontage
+      return () => {
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+        }
+      };
+    }
+  }, []);
 
   return (
-    <section className="py-16 bg-transparent">
+    <section className="py-16 bg-gradient-to-br from-purple-50 to-blue-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
+        <div className="text-center mb-16">
           <h2 className="text-3xl font-bold text-gray-900 mb-2">Entreprises & Partenaires</h2>
           <p className="text-gray-600">Ils soutiennent l'événement</p>
         </div>
 
-        {/* Grille performante et accessible */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-          {logos.map((logo, index) => (
-            <div
-              key={logo.id}
-              className={`group relative mx-auto w-[140px] h-[90px] sm:w-[160px] sm:h-[100px] bg-white/80 border border-gray-200 rounded-xl flex items-center justify-center shadow-sm transition-all duration-300 hover:shadow-md`}
-              style={{ opacity: mounted ? 1 : 0, transform: mounted ? 'none' : 'translateY(8px)', transitionDelay: `${index * 40}ms` }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={`${logo.src}?v=2`}
-                alt={logo.alt}
-                width={280}
-                height={160}
-                loading="lazy"
-                decoding="async"
-                className="max-w-[80%] max-h-[70%] object-contain grayscale group-hover:grayscale-0 transition-all duration-300"
-              />
-            </div>
-          ))}
+        {/* Conteneur 3D pour la roue */}
+        <div className="flex justify-center items-center h-96 perspective-1000 overflow-hidden">
+          <div 
+            ref={wheelRef}
+            className="relative w-80 h-40 transform-style-preserve-3d"
+            style={{
+              transformStyle: 'preserve-3d',
+              animation: 'none' // Désactiver l'animation CSS pour utiliser JS
+            }}
+          >
+            {duplicatedLogos.map((logo, index) => {
+              const angle = (360 / logos.length) * index;
+              const radius = 150; // Rayon de la roue réduit
+              const x = Math.cos((angle * Math.PI) / 180) * radius;
+              const z = Math.sin((angle * Math.PI) / 180) * radius;
+              
+              return (
+                <div
+                  key={`${logo.id}-${index}`}
+                  className="absolute w-28 h-16 bg-white/95 border border-gray-200 rounded-lg flex items-center justify-center shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-110"
+                  style={{
+                    transform: `translateX(${x}px) translateZ(${z}px) rotateY(${-angle}deg)`,
+                    transformStyle: 'preserve-3d',
+                    opacity: mounted ? 1 : 0,
+                    transitionDelay: `${index * 30}ms`,
+                    left: '50%',
+                    top: '50%',
+                    marginLeft: '-56px', // -w/2
+                    marginTop: '-32px'   // -h/2
+                  }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`${logo.src}?v=2`}
+                    alt={logo.alt}
+                    width={100}
+                    height={50}
+                    loading="lazy"
+                    decoding="async"
+                    className="max-w-[85%] max-h-[75%] object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                  />
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Lien de contact */}

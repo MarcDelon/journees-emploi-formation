@@ -311,7 +311,6 @@ const VideoTestimonialsSection = () => {
             </div>
           </motion.div>
 
-
         </div>
       </div>
     </section>
