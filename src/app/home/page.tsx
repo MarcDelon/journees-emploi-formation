@@ -14,7 +14,6 @@ import FloatingElements from '@/components/FloatingElements'
 import VideoTestimonialsSection from '@/components/VideoTestimonialsSection'
 import PartenairesSection from '@/components/PartenairesSection'
 import { usePageTracking } from '@/hooks/usePageTracking'
-import ResponsiveTest from '@/components/ResponsiveTest'
 
 export default function HomePage() {
   const containerRef = useRef(null)
@@ -50,7 +49,6 @@ export default function HomePage() {
         <CTASection />
       </main>
       <Footer />
-      <ResponsiveTest />
     </div>
   )
 }

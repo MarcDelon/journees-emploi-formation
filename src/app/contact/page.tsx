@@ -12,7 +12,6 @@ import Footer from '@/components/Footer'
 import emailjs from '@emailjs/browser'
 import { EMAILJS_CONFIG } from '@/lib/emailjs-config'
 import { incrementApplications } from '@/lib/analytics'
-import AnalyticsWidget from '@/components/AnalyticsWidget'
 
 const contactSchema = z.object({
   nom: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
@@ -406,7 +405,6 @@ export default function ContactPage() {
       </main>
       
       <Footer />
-      <AnalyticsWidget />
     </div>
   )
 }
