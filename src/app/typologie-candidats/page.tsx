@@ -6,7 +6,6 @@ import Image from 'next/image'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Sector } from 'recharts'
-import ThemeSelector from '../../components/ThemeSelector'
 
 // Données pour le graphique en secteurs - Âges
 const ageData = [
@@ -157,8 +156,6 @@ export default function TypologieCandidatsPage() {
   }, [])
   return (
     <div className="min-h-screen theme-transition relative overflow-hidden scroll-smooth" style={{ background: 'var(--bg-primary)' }}>
-      {/* Sélecteur de thème */}
-      <ThemeSelector />
       
       {/* Effets de parallaxe glassmorphism multi-couches */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none parallax-container">
