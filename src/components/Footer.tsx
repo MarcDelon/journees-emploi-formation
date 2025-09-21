@@ -10,7 +10,7 @@ const Footer = () => {
 
   const footerLinks = {
     pages: [
-      { name: 'Accueil', href: '/' },
+      { name: 'Accueil', href: '/home' },
       { name: 'Journées de l\'Emploi', href: '/journees-emploi' },
       { name: 'Offres d\'emploi', href: '/offres-emploi' },
       { name: 'Typologie de candidats', href: '/typologie-candidats' },

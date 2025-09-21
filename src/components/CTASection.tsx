@@ -145,9 +145,9 @@ const CTASection = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Link
-                href="/home"
-                className="bg-white text-event-blue hover:bg-gray-100 font-semibold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 group flex items-center space-x-2 relative overflow-hidden"
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="bg-white text-event-blue hover:bg-gray-100 font-semibold py-4 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 group flex items-center justify-center relative overflow-hidden"
               >
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-event-blue to-event-orange"
@@ -155,9 +155,8 @@ const CTASection = () => {
                   whileHover={{ x: "0%" }}
                   transition={{ duration: 0.3 }}
                 />
-                <span className="relative z-10">Accéder au site</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
-              </Link>
+                <ArrowRight className="w-6 h-6 group-hover:translate-y-[-2px] transition-transform relative z-10 rotate-180" />
+              </button>
             </motion.div>
             
             <motion.div

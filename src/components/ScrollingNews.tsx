@@ -2,8 +2,20 @@
 
 import { motion } from 'framer-motion'
 import { TrendingUp, Calendar, Star, Zap, Award, Users, Briefcase, Heart, Trophy, CheckCircle } from 'lucide-react'
+import { useState, useEffect } from 'react'
 
 const ScrollingNews = () => {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
   const news = [
     {
       id: 1,
@@ -116,7 +128,7 @@ const ScrollingNews = () => {
                 x: ["0%", "-100%"],
               }}
               transition={{
-                duration: 40,
+                duration: isMobile ? 15 : 25, // Encore plus rapide sur mobile
                 repeat: Infinity,
                 ease: "linear",
               }}

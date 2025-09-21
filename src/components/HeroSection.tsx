@@ -198,7 +198,7 @@ const HeroSection = () => {
               className="w-full sm:w-auto"
             >
               <Link
-                href="/home"
+                href="/offres-emploi"
                 className="btn-primary group flex items-center justify-center space-x-2 relative overflow-hidden w-full sm:w-auto"
               >
                 <motion.div
@@ -207,7 +207,7 @@ const HeroSection = () => {
                   whileHover={{ x: "0%" }}
                   transition={{ type: "spring", stiffness: 400, damping: 25 }}
                 />
-                <span className="relative z-10">Accéder au site</span>
+                <span className="relative z-10">Voir les offres</span>
                 <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-all duration-200 ease-out relative z-10" />
               </Link>
             </motion.div>

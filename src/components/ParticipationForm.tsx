@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Send } from 'lucide-react'
+import { incrementApplications } from '@/lib/analytics'
 
 const participationSchema = z.object({
   nom: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
@@ -68,6 +69,7 @@ const ParticipationForm = () => {
         type: 'success', 
         text: '🎉 Inscription réussie ! Nous vous contacterons bientôt.' 
       })
+      incrementApplications() // Incrémenter le compteur d'inscriptions
       reset()
     } catch (error: any) {
       console.error('Erreur lors de l\'inscription:', error)

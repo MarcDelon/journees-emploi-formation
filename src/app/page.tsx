@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowRight, Users, Calendar, Briefcase, Star, CheckCircle } from 'lucide-react'
 import { toast } from 'react-hot-toast'
+import { usePageTracking } from '@/hooks/usePageTracking'
 
 export default function WelcomePage() {
   const router = useRouter()
@@ -14,6 +15,9 @@ export default function WelcomePage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+
+  // Tracker les vues de page
+  usePageTracking()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -76,6 +80,7 @@ export default function WelcomePage() {
         }
       })
       
+      // Le comptage des candidatures se fait maintenant via la base de données
       setSuccess(true)
       setTimeout(() => router.push('/home'), 2000)
     } catch (err: any) {
@@ -136,8 +141,8 @@ export default function WelcomePage() {
       </div>
 
       <main className="relative z-10 min-h-screen flex items-center">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 w-full">
+          <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 items-center">
             {/* Left Side - Content */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -156,17 +161,17 @@ export default function WelcomePage() {
                 </div>
               </div>
 
-              <h2 className="text-5xl font-bold mb-6 leading-tight">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 leading-tight">
                 Bienvenue aux
                 <span className="block text-orange-300">Journées de l'Emploi</span>
               </h2>
               
-              <p className="text-xl text-white/90 mb-8 leading-relaxed">
+              <p className="text-base sm:text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
                 Rejoignez l'événement emploi de référence. Inscrivez-vous pour accéder à toutes les opportunités et rester informé des dernières actualités.
               </p>
 
               {/* Features */}
-              <div className="grid grid-cols-2 gap-4 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-8">
                 {features.map((feature, index) => (
                   <motion.div
                     key={index}
@@ -206,7 +211,7 @@ export default function WelcomePage() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative"
             >
-              <div className="bg-white/20 backdrop-blur-md rounded-3xl shadow-2xl border border-white/30 p-8 relative overflow-hidden">
+              <div className="bg-white/20 backdrop-blur-md rounded-3xl shadow-2xl border border-white/30 p-4 sm:p-6 md:p-8 relative overflow-hidden">
                 {/* Decorative elements */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100 to-transparent rounded-full -translate-y-16 translate-x-16"></div>
                 <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-orange-100 to-transparent rounded-full translate-y-12 -translate-x-12"></div>
@@ -230,8 +235,8 @@ export default function WelcomePage() {
                       <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                         <Users className="w-8 h-8 text-white" />
                       </div>
-                      <h3 className="text-2xl font-bold text-white mb-2">Accéder au site</h3>
-                      <p className="text-white/90">Renseignez vos informations pour continuer</p>
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Accéder au site</h3>
+                      <p className="text-sm sm:text-base text-white/90">Renseignez vos informations pour continuer</p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-6">

@@ -68,10 +68,11 @@ export default function AdminDashboard() {
         const supabase = createAdminSupabaseClient() || createFrontendSupabaseClient()
         if (!supabase) throw new Error('Supabase non initialisé (vérifiez les variables NEXT_PUBLIC_SUPABASE_URL et clé)')
 
-        const [offers, partners, applications] = await Promise.all([
+        const [offers, partners, registrations, analytics] = await Promise.all([
           supabase.from('job_offers').select('*', { count: 'exact', head: true }),
           supabase.from('partners').select('*', { count: 'exact', head: true }),
-          supabase.from('applications').select('*', { count: 'exact', head: true })
+          supabase.from('registrations').select('*', { count: 'exact', head: true }),
+          fetch('/api/admin/analytics').then(res => res.json()).catch(() => ({ totalViews: 0 }))
         ])
 
         setStats(prev => ({
@@ -79,8 +80,8 @@ export default function AdminDashboard() {
           videos: prev.videos, // TODO: connecter à table vidéos si dispo
           images: prev.images, // TODO: connecter à table images si dispo
           partenaires: partners.count || 0,
-          vues: prev.vues, // TODO: connecter à analytics si dispo
-          candidatures: applications.count || 0
+          vues: analytics.totalViews || 0,
+          candidatures: registrations.count || 0
         }))
       } catch (e) {
         // Éviter d'afficher un toast global si l'appel échoue

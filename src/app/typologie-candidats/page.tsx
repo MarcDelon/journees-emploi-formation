@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Sector } from 'recharts'
+import ThemeSelector from '../../components/ThemeSelector'
 
 // Données pour le graphique en secteurs - Âges
 const ageData = [
@@ -39,6 +40,7 @@ export default function TypologieCandidatsPage() {
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 })
   const [activeSection, setActiveSection] = useState<'ages' | 'typologie' | 'etudes' | 'accessibilite'>('ages')
   const [introVisible, setIntroVisible] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
   const agesRef = useRef<HTMLElement | null>(null)
   const typologieRef = useRef<HTMLElement | null>(null)
   const etudesRef = useRef<HTMLElement | null>(null)
@@ -118,6 +120,7 @@ export default function TypologieCandidatsPage() {
   useEffect(() => {
     // Page intro transition
     const t = setTimeout(() => setIntroVisible(false), 450)
+    const loadingTimer = setTimeout(() => setIsLoading(false), 2000)
     agesRef.current = document.getElementById('ages') as HTMLElement
     typologieRef.current = document.getElementById('typologie') as HTMLElement
     etudesRef.current = document.getElementById('etudes') as HTMLElement
@@ -150,10 +153,36 @@ export default function TypologieCandidatsPage() {
     const barTimer = setInterval(() => {
       setBarActiveIndex((prev) => (prev + 1) % niveauEtudeData.length)
     }, 1400)
-    return () => { observer.disconnect(); clearTimeout(t) }
+    return () => { observer.disconnect(); clearTimeout(t); clearTimeout(loadingTimer) }
   }, [])
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-orange-50 relative overflow-hidden scroll-smooth">
+    <div className="min-h-screen theme-transition relative overflow-hidden scroll-smooth" style={{ background: 'var(--bg-primary)' }}>
+      {/* Sélecteur de thème */}
+      <ThemeSelector />
+      
+      {/* Effets de parallaxe glassmorphism multi-couches */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none parallax-container">
+        {/* Couche 1 - Arrière-plan principal */}
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-100/30 via-transparent to-orange-100/30 parallax-layer-1"></div>
+        
+        {/* Couche 2 - Formes flottantes */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl parallax-layer-2 parallax-float"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-orange-200/20 rounded-full blur-3xl parallax-layer-2 parallax-drift" style={{ animationDelay: '1s' }}></div>
+        
+        {/* Couche 3 - Éléments rotatifs */}
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-purple-200/20 rounded-full blur-3xl parallax-layer-3 parallax-rotate" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/3 right-1/3 w-48 h-48 bg-green-200/20 rounded-full blur-2xl parallax-layer-3 parallax-scale" style={{ animationDelay: '3s' }}></div>
+        
+        {/* Couche 4 - Particules lointaines */}
+        <div className="absolute top-1/6 right-1/6 w-32 h-32 bg-pink-200/15 rounded-full blur-xl parallax-layer-4 parallax-float" style={{ animationDelay: '4s' }}></div>
+        <div className="absolute bottom-1/3 left-1/6 w-40 h-40 bg-cyan-200/15 rounded-full blur-xl parallax-layer-4 parallax-drift" style={{ animationDelay: '5s' }}></div>
+        
+        {/* Couche 5 - Étoiles scintillantes */}
+        <div className="absolute top-1/5 left-1/5 w-4 h-4 bg-white/40 rounded-full parallax-layer-1 parallax-float" style={{ animationDelay: '0.5s' }}></div>
+        <div className="absolute top-2/5 right-1/5 w-3 h-3 bg-white/30 rounded-full parallax-layer-1 parallax-float" style={{ animationDelay: '1.5s' }}></div>
+        <div className="absolute bottom-1/5 left-2/5 w-2 h-2 bg-white/50 rounded-full parallax-layer-1 parallax-float" style={{ animationDelay: '2.5s' }}></div>
+        <div className="absolute bottom-2/5 right-2/5 w-3 h-3 bg-white/35 rounded-full parallax-layer-1 parallax-float" style={{ animationDelay: '3.5s' }}></div>
+      </div>
       {/* Intro overlay transition */}
       {introVisible && (
         <motion.div
@@ -163,6 +192,48 @@ export default function TypologieCandidatsPage() {
           className="fixed inset-0 z-50 bg-white"
           aria-hidden="true"
         />
+      )}
+
+      {/* Loading sophistiqué */}
+      {isLoading && !introVisible && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 flex items-center justify-center"
+        >
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="glassmorphism-card p-8 rounded-3xl text-center"
+          >
+            <div className="loading-pulse-3d mx-auto mb-6"></div>
+            <div className="loading-wave mx-auto mb-4">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <motion.h3
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="text-xl font-bold text-gray-800 mb-2"
+            >
+              Préparation des graphiques
+            </motion.h3>
+            <motion.p
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="text-gray-600"
+            >
+              Optimisation des données en cours...
+            </motion.p>
+          </motion.div>
+        </motion.div>
       )}
       <motion.div style={{ scaleX }} className="fixed left-0 top-0 right-0 h-1 origin-left z-50 bg-gradient-to-r from-blue-500 to-orange-500" />
       {/* Background Pattern */}
@@ -328,8 +399,8 @@ export default function TypologieCandidatsPage() {
                   transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
                 />
                 <h1 className="text-4xl md:text-6xl font-bold text-center relative z-10">
-                  TYPOLOGIE DE CANDIDATS
-                </h1>
+                TYPOLOGIE DE CANDIDATS
+              </h1>
                 <div className="w-full h-1 bg-white/40 rounded-full mt-4 relative z-10"></div>
               </div>
             </motion.div>
@@ -426,155 +497,179 @@ export default function TypologieCandidatsPage() {
                 </p>
               </motion.div>
 
-              <div className="mobile-flex-col mobile-gap items-start">
-                {/* Carte de statistiques améliorée */}
-                <div className="w-full lg:w-1/3">
-                  <motion.div 
-                    className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl mobile-p border border-white/20 relative overflow-hidden group"
-                    whileHover={{ scale: 1.02, y: -5 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  >
-                    {/* Background Pattern amélioré */}
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-100 to-transparent rounded-full -translate-y-12 translate-x-12"></div>
-                    <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-orange-100 to-transparent rounded-full translate-y-10 -translate-x-10"></div>
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-r from-purple-50 to-blue-50 rounded-full opacity-30"></div>
-                    
-                    {/* Effet de brillance au hover */}
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-3xl"
-                      initial={{ x: "-100%" }}
-                      whileHover={{ x: "100%" }}
-                      transition={{ duration: 0.6 }}
-                    />
+               {/* Layout avec conteneur réduit et texte à droite */}
+               <div className="flex flex-col lg:flex-row gap-8">
+                 {/* Conteneur du graphique réduit */}
+                 <div className="lg:w-1/2">
+                   <motion.div 
+                     className="glassmorphism-card glassmorphism-hover rounded-3xl p-6 relative overflow-hidden group parallax-layer-1 fluid-drip fluid-ripple theme-transition"
+                     style={{ 
+                       background: 'var(--bg-secondary)',
+                       color: 'var(--text-primary)',
+                       boxShadow: `0 8px 32px var(--shadow-color)`
+                     }}
+                     whileHover={{ scale: 1.01, y: -2 }}
+                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                   >
+                     {/* Background Pattern amélioré */}
+                     <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-100 to-transparent rounded-full -translate-y-12 translate-x-12"></div>
+                     <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-orange-100 to-transparent rounded-full translate-y-10 -translate-x-10"></div>
+                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-r from-purple-50 to-blue-50 rounded-full opacity-30"></div>
+                     
+                     {/* Effet de brillance au hover */}
+                     <motion.div
+                       className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-3xl"
+                       initial={{ x: "-100%" }}
+                       whileHover={{ x: "100%" }}
+                       transition={{ duration: 0.6 }}
+                     />
                     
                     <div className="relative z-10">
-                      {/* Icône et titre */}
-                      <div className="flex items-center space-x-3 mb-6">
-                        <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                          <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                        </div>
-                        <h3 className="text-xl font-bold text-gray-800">Distribution par âge</h3>
-                      </div>
+                       {/* Icône et titre */}
+                       <div className="flex items-center space-x-3 mb-8">
+                         <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                           <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                           </svg>
+                         </div>
+                         <h3 className="text-2xl font-bold text-gray-800">Distribution par âge</h3>
+                       </div>
 
+                       {/* Layout responsive: graphique centré sur mobile, côte à côte sur desktop */}
+                       <div className="flex flex-col lg:flex-row items-center lg:items-start gap-6">
+                         {/* Graphique circulaire */}
+                         <div className="flex-shrink-0 flex justify-center lg:justify-start">
                       <motion.div
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, amount: 0.4 }}
                         variants={containerVariants}
                       >
-                        <motion.div variants={itemVariants}>
-                          <ResponsiveContainer width="100%" height={300}>
-                            <PieChart>
-                              <Pie
-                                data={ageData}
-                                cx="50%"
-                                cy="50%"
-                                innerRadius={60}
-                                outerRadius={120}
-                                paddingAngle={5}
-                                dataKey="value"
-                                isAnimationActive
-                                animationDuration={1000}
-                              >
-                                {ageData.map((entry, index) => (
-                                  <Cell 
-                                    key={`cell-${index}`} 
-                                    fill={`url(#gradient-${index})`}
-                                    stroke="rgba(255,255,255,0.8)"
-                                    strokeWidth={2}
-                                  />
-                                ))}
-                              </Pie>
-                              <Tooltip 
-                                formatter={(value) => [`${value}%`, 'Pourcentage']}
-                                contentStyle={{ 
-                                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                                  border: '1px solid #e5e7eb',
-                                  borderRadius: '12px',
-                                  boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)'
-                                }}
-                              />
-                              <defs>
-                                {ageData.map((entry, index) => (
-                                  <linearGradient key={`gradient-${index}`} id={`gradient-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stopColor={entry.color} />
-                                    <stop offset="100%" stopColor={entry.color} stopOpacity={0.8} />
-                                  </linearGradient>
-                                ))}
-                              </defs>
-                            </PieChart>
-                          </ResponsiveContainer>
+                        <motion.div variants={itemVariants} className="wheel-rotation-smooth">
+                               <ResponsiveContainer width={250} height={250}>
+                    <PieChart>
+                      <Pie
+                        data={ageData}
+                        cx="50%"
+                        cy="50%"
+                              innerRadius={50}
+                              outerRadius={100}
+                        paddingAngle={5}
+                        dataKey="value"
+                              isAnimationActive={false}
+                      >
+                        {ageData.map((entry, index) => (
+                                <Cell 
+                                  key={`cell-${index}`} 
+                                  fill={`url(#gradient-${index})`}
+                                         stroke="rgba(255,255,255,0.8)"
+                                         strokeWidth={2}
+                                />
+                        ))}
+                      </Pie>
+                                   <Tooltip 
+                                     formatter={(value) => [`${value}%`, 'Pourcentage']}
+                                     contentStyle={{ 
+                                       backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                       border: '1px solid #e5e7eb',
+                                       borderRadius: '12px',
+                                       boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)'
+                                     }}
+                                   />
+                            <defs>
+                              {ageData.map((entry, index) => (
+                                <linearGradient key={`gradient-${index}`} id={`gradient-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                                  <stop offset="0%" stopColor={entry.color} />
+                                         <stop offset="100%" stopColor={entry.color} stopOpacity={0.8} />
+                                </linearGradient>
+                              ))}
+                            </defs>
+                    </PieChart>
+                  </ResponsiveContainer>
                         </motion.div>
                       </motion.div>
+                         </div>
                       
-                      <motion.div className="space-y-3 mt-6" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }} variants={containerVariants}>
-                        {ageData.map((item, index) => (
+                         {/* Légende avec pourcentages rapprochés */}
+                         <div className="flex-1">
+                           <motion.div className="space-y-3" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }} variants={containerVariants}>
+                  {ageData.map((item, index) => (
                           <motion.div 
                             key={index} 
                             variants={itemVariants}
-                            className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-all duration-300 group/item"
-                            whileHover={{ scale: 1.02, x: 5 }}
+                                 className="flex items-center p-3 rounded-xl neumorphism-button hover:bg-gray-50 transition-all duration-300 group/item"
+                                 whileHover={{ scale: 1.02, x: 5 }}
                           >
-                            <div className="flex items-center space-x-3">
-                              <div 
-                                className="w-4 h-4 rounded-full shadow-sm group-hover/item:scale-110 transition-transform duration-200"
-                                style={{ backgroundColor: item.color }}
-                              ></div>
-                              <span className="text-sm text-gray-700 font-medium">{item.name}</span>
-                            </div>
-                            <span className="text-sm font-bold text-gray-800 bg-gray-100 px-2 py-1 rounded-full">{item.value}%</span>
+                                 <div className="flex items-center space-x-3">
+                            <div 
+                                     className="w-4 h-4 rounded-full shadow-sm group-hover/item:scale-110 transition-transform duration-200"
+                        style={{ backgroundColor: item.color }}
+                      ></div>
+                                   <span className="text-sm text-gray-700 font-medium">{item.name}</span>
+                                   <span className="text-sm font-bold text-gray-800">{item.value}%</span>
+                                 </div>
                           </motion.div>
                         ))}
                       </motion.div>
                     </div>
-                  </motion.div>
+                  </div>
+                     </div>
+                   </motion.div>
                 </div>
                 
-                {/* Contenu textuel amélioré */}
-                <div className="w-full lg:w-2/3">
-                  <motion.div 
-                    className="relative rounded-3xl overflow-hidden min-h-[500px] group" 
-                    initial="hidden" 
-                    whileInView="visible" 
-                    viewport={{ once: true, amount: 0.35 }} 
-                    variants={containerVariants}
-                    whileHover={{ scale: 1.01 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  >
-                    <Image src="/images/group/age-group.svg" alt="" fill className="object-cover opacity-15 group-hover:opacity-20 transition-opacity duration-500" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-white/60 to-orange-50/80"></div>
-                    <div className="relative z-10 space-y-8 p-8 md:p-10">
-                      <motion.div className="text-gray-700 leading-relaxed text-lg" variants={itemVariants}>
-                        <p className="mb-6 text-xl">
-                          Les <span className="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">25–44 ans</span> constituent l'essentiel des participants, profils au cœur de l'activité professionnelle.
-                        </p>
-                        <p className="mb-8 text-lg">
-                          Les <span className="font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded-lg">18–24 ans</span> sont moins nombreux mais restent clés pour les stages et premiers emplois.
-                        </p>
+                 {/* Texte explicatif à droite */}
+                 <div className="lg:w-1/2 flex justify-center items-center">
+                   <motion.div 
+                     className="glassmorphism-card glassmorphism-hover rounded-2xl p-8 max-w-md parallax-layer-2 theme-transition"
+                     style={{ 
+                       background: 'var(--bg-secondary)',
+                       color: 'var(--text-primary)',
+                       boxShadow: `0 8px 32px var(--shadow-color)`
+                     }}
+                     initial="hidden"
+                     whileInView="visible"
+                     viewport={{ once: true, amount: 0.4 }}
+                     variants={containerVariants}
+                   >
+                     <motion.div className="text-gray-700 leading-relaxed text-lg" variants={itemVariants}>
+                      <p className="mb-4">
+                         Les <span className="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">25–44 ans</span> constituent l'essentiel des participants, profils au cœur de l'activité professionnelle.
+                      </p>
+                       <p>
+                         Les <span className="font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded-lg">18–24 ans</span> sont moins nombreux mais restent clés pour les stages et premiers emplois.
+                      </p>
                       </motion.div>
-                  
-                      <motion.div 
-                        className="bg-gradient-to-r from-blue-50 to-orange-50 rounded-2xl p-8 border border-blue-200 shadow-lg relative overflow-hidden" 
-                        variants={itemVariants}
-                        whileHover={{ scale: 1.02 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                      >
-                        <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-100 to-transparent rounded-full -translate-y-10 translate-x-10"></div>
-                        <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center space-x-2">
-                          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
-                            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                            </svg>
-                          </div>
-                          <span>Analyse des tendances</span>
-                        </h3>
-                        <p className="text-gray-700 text-lg leading-relaxed">Concentration forte sur la tranche la plus active: un ciblage pertinent pour les besoins des entreprises.</p>
                       </motion.div>
                     </div>
-                  </motion.div>
                 </div>
+               
+               {/* Analyse des tendances en dessous */}
+               <div className="mt-8">
+                 <motion.div 
+                   className="glassmorphism-card glassmorphism-hover rounded-2xl p-6 relative overflow-hidden max-w-2xl mx-auto parallax-layer-3 theme-transition"
+                   style={{ 
+                     background: 'var(--bg-secondary)',
+                     color: 'var(--text-primary)',
+                     boxShadow: `0 8px 32px var(--shadow-color)`
+                   }} 
+                   initial="hidden"
+                   whileInView="visible"
+                   viewport={{ once: true, amount: 0.4 }}
+                   variants={containerVariants}
+                   whileHover={{ scale: 1.02 }}
+                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                 >
+                   <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-100 to-transparent rounded-full -translate-y-10 translate-x-10"></div>
+                   <h3 className="text-xl font-bold text-gray-800 mb-3 flex items-center space-x-2">
+                     <div className="w-6 h-6 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                       <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                         <path fillRule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                       </svg>
+                     </div>
+                     <span>Analyse des tendances</span>
+                   </h3>
+                   <p className="text-gray-700 text-base leading-relaxed">Concentration forte sur la tranche la plus active: un ciblage pertinent pour les besoins des entreprises.</p>
+                 </motion.div>
               </div>
             </motion.div>
 
@@ -611,155 +706,179 @@ export default function TypologieCandidatsPage() {
                 </p>
               </motion.div>
 
-              <div className="mobile-flex-col mobile-gap items-start">
-                {/* Carte de statistiques améliorée */}
-                <div className="w-full lg:w-1/3">
-                  <motion.div 
-                    className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl mobile-p border border-white/20 relative overflow-hidden group"
-                    whileHover={{ scale: 1.02, y: -5 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  >
-                    {/* Background Pattern amélioré */}
-                    <div className="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-purple-100 to-transparent rounded-full -translate-y-12 -translate-x-12"></div>
-                    <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tr from-green-100 to-transparent rounded-full translate-y-10 translate-x-10"></div>
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-r from-purple-50 to-green-50 rounded-full opacity-30"></div>
-                    
-                    {/* Effet de brillance au hover */}
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-3xl"
-                      initial={{ x: "-100%" }}
-                      whileHover={{ x: "100%" }}
-                      transition={{ duration: 0.6 }}
-                    />
+               {/* Layout avec conteneur réduit et texte à droite */}
+               <div className="flex flex-col lg:flex-row gap-8">
+                 {/* Conteneur du graphique réduit */}
+                 <div className="lg:w-1/2">
+                   <motion.div 
+                     className="glassmorphism-card glassmorphism-hover rounded-3xl p-6 relative overflow-hidden group parallax-layer-1 fluid-drip fluid-ripple theme-transition"
+                     style={{ 
+                       background: 'var(--bg-secondary)',
+                       color: 'var(--text-primary)',
+                       boxShadow: `0 8px 32px var(--shadow-color)`
+                     }}
+                     whileHover={{ scale: 1.01, y: -2 }}
+                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                   >
+                     {/* Background Pattern amélioré */}
+                     <div className="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-purple-100 to-transparent rounded-full -translate-y-12 -translate-x-12"></div>
+                     <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tr from-green-100 to-transparent rounded-full translate-y-10 translate-x-10"></div>
+                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-r from-purple-50 to-green-50 rounded-full opacity-30"></div>
+                     
+                     {/* Effet de brillance au hover */}
+                     <motion.div
+                       className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-3xl"
+                       initial={{ x: "-100%" }}
+                       whileHover={{ x: "100%" }}
+                       transition={{ duration: 0.6 }}
+                     />
                     
                     <div className="relative z-10">
-                      {/* Icône et titre */}
-                      <div className="flex items-center space-x-3 mb-6">
-                        <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                          <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z" />
-                          </svg>
-                        </div>
-                        <h3 className="text-xl font-bold text-gray-800">Types de candidats</h3>
-                      </div>
+                       {/* Icône et titre */}
+                       <div className="flex items-center space-x-3 mb-8">
+                         <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                           <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                             <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z" />
+                           </svg>
+                         </div>
+                         <h3 className="text-2xl font-bold text-gray-800">Types de candidats</h3>
+                       </div>
 
-                      <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, amount: 0.4 }}
-                        variants={containerVariants}
+                       {/* Layout responsive: graphique centré sur mobile, côte à côte sur desktop */}
+                       <div className="flex flex-col lg:flex-row items-center lg:items-start gap-6">
+                         {/* Graphique circulaire */}
+                         <div className="flex-shrink-0 flex justify-center lg:justify-start">
+                           <motion.div
+                             initial="hidden"
+                             whileInView="visible"
+                             viewport={{ once: true, amount: 0.4 }}
+                             variants={containerVariants}
+                           >
+                        <motion.div variants={itemVariants} className="wheel-rotation-smooth">
+                               <ResponsiveContainer width={250} height={250}>
+                    <PieChart>
+                      <Pie
+                        data={typologieData}
+                        cx="50%"
+                        cy="50%"
+                              innerRadius={50}
+                              outerRadius={100}
+                        paddingAngle={5}
+                        dataKey="value"
+                                     isAnimationActive={false}
                       >
-                        <motion.div variants={itemVariants}>
-                          <ResponsiveContainer width="100%" height={300}>
-                            <PieChart>
-                              <Pie
-                                data={typologieData}
-                                cx="50%"
-                                cy="50%"
-                                innerRadius={60}
-                                outerRadius={120}
-                                paddingAngle={5}
-                                dataKey="value"
-                                isAnimationActive
-                                animationDuration={1000}
-                              >
-                                {typologieData.map((entry, index) => (
-                                  <Cell 
-                                    key={`cell-${index}`} 
-                                    fill={`url(#gradient-type-${index})`}
-                                    stroke="rgba(255,255,255,0.8)"
-                                    strokeWidth={2}
-                                  />
-                                ))}
-                              </Pie>
-                              <Tooltip 
-                                formatter={(value) => [`${value}%`, 'Pourcentage']}
-                                contentStyle={{ 
-                                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                                  border: '1px solid #e5e7eb',
-                                  borderRadius: '12px',
-                                  boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)'
-                                }}
-                              />
-                              <defs>
-                                {typologieData.map((entry, index) => (
-                                  <linearGradient key={`gradient-type-${index}`} id={`gradient-type-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stopColor={entry.color} />
-                                    <stop offset="100%" stopColor={entry.color} stopOpacity={0.8} />
-                                  </linearGradient>
-                                ))}
-                              </defs>
-                            </PieChart>
-                          </ResponsiveContainer>
+                        {typologieData.map((entry, index) => (
+                                <Cell 
+                                  key={`cell-${index}`} 
+                                  fill={`url(#gradient-type-${index})`}
+                                         stroke="rgba(255,255,255,0.8)"
+                                         strokeWidth={2}
+                                />
+                        ))}
+                      </Pie>
+                                   <Tooltip 
+                                     formatter={(value) => [`${value}%`, 'Pourcentage']}
+                                     contentStyle={{ 
+                                       backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                       border: '1px solid #e5e7eb',
+                                       borderRadius: '12px',
+                                       boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)'
+                                     }}
+                                   />
+                            <defs>
+                              {typologieData.map((entry, index) => (
+                                <linearGradient key={`gradient-type-${index}`} id={`gradient-type-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                                  <stop offset="0%" stopColor={entry.color} />
+                                         <stop offset="100%" stopColor={entry.color} stopOpacity={0.8} />
+                                </linearGradient>
+                              ))}
+                            </defs>
+                    </PieChart>
+                  </ResponsiveContainer>
                         </motion.div>
                       </motion.div>
+                         </div>
                       
-                      <motion.div className="space-y-3 mt-6" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }} variants={containerVariants}>
-                        {typologieData.map((item, index) => (
+                         {/* Légende avec pourcentages rapprochés */}
+                         <div className="flex-1">
+                           <motion.div className="space-y-3" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }} variants={containerVariants}>
+                  {typologieData.map((item, index) => (
                           <motion.div 
                             key={index} 
                             variants={itemVariants}
-                            className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-all duration-300 group/item"
-                            whileHover={{ scale: 1.02, x: 5 }}
+                                 className="flex items-center p-3 rounded-xl neumorphism-button hover:bg-gray-50 transition-all duration-300 group/item"
+                                 whileHover={{ scale: 1.02, x: 5 }}
                           >
-                            <div className="flex items-center space-x-3">
-                              <div 
-                                className="w-4 h-4 rounded-full shadow-sm group-hover/item:scale-110 transition-transform duration-200"
-                                style={{ backgroundColor: item.color }}
-                              ></div>
-                              <span className="text-sm text-gray-700 font-medium">{item.name}</span>
-                            </div>
-                            <span className="text-sm font-bold text-gray-800 bg-gray-100 px-2 py-1 rounded-full">{item.value}%</span>
+                                 <div className="flex items-center space-x-3">
+                            <div 
+                                     className="w-4 h-4 rounded-full shadow-sm group-hover/item:scale-110 transition-transform duration-200"
+                        style={{ backgroundColor: item.color }}
+                      ></div>
+                                   <span className="text-sm text-gray-700 font-medium">{item.name}</span>
+                                   <span className="text-sm font-bold text-gray-800">{item.value}%</span>
+                                 </div>
                           </motion.div>
                         ))}
                       </motion.div>
                     </div>
-                  </motion.div>
+                  </div>
+                     </div>
+                   </motion.div>
                 </div>
                 
-                {/* Contenu textuel amélioré */}
-                <div className="w-full lg:w-2/3">
-                  <motion.div 
-                    className="relative rounded-3xl overflow-hidden min-h-[500px] group" 
-                    initial="hidden" 
-                    whileInView="visible" 
-                    viewport={{ once: true, amount: 0.35 }} 
-                    variants={containerVariants}
-                    whileHover={{ scale: 1.01 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  >
-                    <Image src="/images/group/typologie-group.svg" alt="" fill className="object-cover opacity-15 group-hover:opacity-20 transition-opacity duration-500" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-50/80 via-white/60 to-green-50/80"></div>
-                    <div className="relative z-10 space-y-8 p-8 md:p-10">
-                      <motion.div className="text-gray-700 leading-relaxed text-lg" variants={itemVariants}>
-                        <p className="mb-6 text-xl">
-                          Majorité <span className="font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded-lg">en recherche d'emploi</span>, avec un vivier important d'<span className="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">étudiants</span> et de <span className="font-bold text-cyan-600 bg-cyan-50 px-2 py-1 rounded-lg">premiers emplois</span>.
-                        </p>
-                        <p className="mb-8 text-lg">
-                          Une part s'oriente vers la <span className="font-bold text-green-600 bg-green-50 px-2 py-1 rounded-lg">formation</span> pour renforcer l'employabilité.
-                        </p>
+                 {/* Texte explicatif à droite */}
+                 <div className="lg:w-1/2 flex justify-center items-center">
+                   <motion.div 
+                     className="glassmorphism-card glassmorphism-hover rounded-2xl p-8 max-w-md parallax-layer-2 theme-transition"
+                     style={{ 
+                       background: 'var(--bg-secondary)',
+                       color: 'var(--text-primary)',
+                       boxShadow: `0 8px 32px var(--shadow-color)`
+                     }}
+                     initial="hidden"
+                     whileInView="visible"
+                     viewport={{ once: true, amount: 0.4 }}
+                     variants={containerVariants}
+                   >
+                     <motion.div className="text-gray-700 leading-relaxed text-lg" variants={itemVariants}>
+                      <p className="mb-4">
+                         Majorité <span className="font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded-lg">en recherche d'emploi</span>, avec un vivier important d'<span className="font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">étudiants</span> et de <span className="font-bold text-cyan-600 bg-cyan-50 px-2 py-1 rounded-lg">premiers emplois</span>.
+                      </p>
+                       <p>
+                         Une part s'oriente vers la <span className="font-bold text-green-600 bg-green-50 px-2 py-1 rounded-lg">formation</span> pour renforcer l'employabilité.
+                      </p>
                       </motion.div>
-                  
-                      <motion.div 
-                        className="bg-gradient-to-r from-purple-50 to-green-50 rounded-2xl p-8 border border-purple-200 shadow-lg relative overflow-hidden" 
-                        variants={itemVariants}
-                        whileHover={{ scale: 1.02 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                      >
-                        <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-purple-100 to-transparent rounded-full -translate-y-10 translate-x-10"></div>
-                        <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center space-x-2">
-                          <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
-                            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                            </svg>
-                          </div>
-                          <span>Stratégie de ciblage</span>
-                        </h3>
-                        <p className="text-gray-700 text-lg leading-relaxed">Diversité utile: recrutement direct, stages et alternance sont facilités.</p>
                       </motion.div>
                     </div>
-                  </motion.div>
                 </div>
+               
+               {/* Stratégie de ciblage en dessous */}
+               <div className="mt-8">
+                 <motion.div 
+                   className="glassmorphism-card glassmorphism-hover rounded-2xl p-6 relative overflow-hidden max-w-2xl mx-auto parallax-layer-3 theme-transition"
+                   style={{ 
+                     background: 'var(--bg-secondary)',
+                     color: 'var(--text-primary)',
+                     boxShadow: `0 8px 32px var(--shadow-color)`
+                   }} 
+                   initial="hidden"
+                   whileInView="visible"
+                   viewport={{ once: true, amount: 0.4 }}
+                   variants={containerVariants}
+                   whileHover={{ scale: 1.02 }}
+                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                 >
+                   <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-purple-100 to-transparent rounded-full -translate-y-10 translate-x-10"></div>
+                   <h3 className="text-xl font-bold text-gray-800 mb-3 flex items-center space-x-2">
+                     <div className="w-6 h-6 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
+                       <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                         <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                       </svg>
+                     </div>
+                     <span>Stratégie de ciblage</span>
+                   </h3>
+                   <p className="text-gray-700 text-base leading-relaxed">Diversité utile: recrutement direct, stages et alternance sont facilités.</p>
+                 </motion.div>
               </div>
             </motion.div>
 
@@ -795,7 +914,7 @@ export default function TypologieCandidatsPage() {
                   Explorez la diversité des formations et qualifications des participants
                 </p>
               </motion.div>
-              <div className="mobile-flex-col mobile-gap items-start">
+              <div className="flex flex-col lg:flex-row gap-8 items-start">
                 {/* Petit bloc à gauche avec les statistiques */}
                 <div className="w-full lg:w-1/3">
                   <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-6 border border-white/20 relative overflow-hidden transform-gpu" style={{ transform: 'perspective(1000px) rotateX(5deg) rotateY(-1deg)' }}>
@@ -910,11 +1029,11 @@ export default function TypologieCandidatsPage() {
               <div className="bg-gradient-to-r from-green-600 to-green-800 rounded-3xl shadow-2xl p-12 text-white text-center relative overflow-hidden group">
                 {/* Background Pattern amélioré */}
                 <div className="absolute inset-0 opacity-20">
-                  <div className="absolute inset-0" style={{
+                <div className="absolute inset-0" style={{
                     backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/svg%3E")`,
                     backgroundSize: '60px 60px'
-                  }} />
-                </div>
+                }} />
+              </div>
 
                 {/* Éléments décoratifs */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
@@ -926,8 +1045,8 @@ export default function TypologieCandidatsPage() {
                   animate={{ x: ["-100%", "100%"] }}
                   transition={{ duration: 3, repeat: Infinity, delay: 1 }}
                 />
-                
-                <div className="relative z-10">
+              
+              <div className="relative z-10">
                   <motion.div 
                     className="flex items-center justify-center mb-8"
                     whileHover={{ scale: 1.05 }}
@@ -935,8 +1054,8 @@ export default function TypologieCandidatsPage() {
                   >
                     <div className="bg-white rounded-full p-8 shadow-2xl group-hover:shadow-3xl transition-all duration-300">
                       <svg className="w-20 h-20 text-green-600 group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
                     </div>
                   </motion.div>
                   
@@ -966,8 +1085,8 @@ export default function TypologieCandidatsPage() {
                     >
                       <div className="text-3xl font-bold text-white mb-2">24/7</div>
                       <div className="text-white/90">Support inclusif</div>
-                    </motion.div>
-                  </div>
+                  </motion.div>
+              </div>
                   
                   <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
                     Nous nous engageons à créer un environnement inclusif et accessible pour tous les participants, 

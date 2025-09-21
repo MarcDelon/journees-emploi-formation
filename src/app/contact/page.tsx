@@ -9,6 +9,10 @@ import { toast } from 'react-hot-toast'
 import { Mail, Phone, MapPin, Send, MessageSquare, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import emailjs from '@emailjs/browser'
+import { EMAILJS_CONFIG } from '@/lib/emailjs-config'
+import { incrementApplications } from '@/lib/analytics'
+import AnalyticsWidget from '@/components/AnalyticsWidget'
 
 const contactSchema = z.object({
   nom: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
@@ -39,12 +43,46 @@ export default function ContactPage() {
     setIsSubmitting(true)
     
     try {
-      // Simulation d'envoi - à remplacer par l'intégration Supabase
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
-      toast.success('Message envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.')
-      reset()
+      // Vérifier si EmailJS est configuré
+      if (EMAILJS_CONFIG.publicKey === 'your_public_key') {
+        // Fallback vers mailto si EmailJS n'est pas configuré
+        const subject = encodeURIComponent(data.sujet)
+        const body = encodeURIComponent(
+          `Nom: ${data.nom}\n` +
+          `Email: ${data.email}\n` +
+          `Sujet: ${data.sujet}\n\n` +
+          `Message:\n${data.message}\n\n` +
+          `Newsletter: ${data.accepteNewsletter ? 'Oui' : 'Non'}`
+        )
+        
+        const mailtoLink = `mailto:marcnzenang@gmail.com?subject=${subject}&body=${body}`
+        window.location.href = mailtoLink
+        
+        toast.success('Votre client email va s\'ouvrir. Veuillez envoyer le message.')
+        reset()
+      } else {
+        // Utiliser EmailJS si configuré
+        const templateParams = {
+          from_name: data.nom,
+          from_email: data.email,
+          subject: data.sujet,
+          message: data.message,
+          newsletter: data.accepteNewsletter ? 'Oui' : 'Non',
+          to_email: EMAILJS_CONFIG.toEmail
+        }
+        
+        await emailjs.send(
+          EMAILJS_CONFIG.serviceId, 
+          EMAILJS_CONFIG.templateId, 
+          templateParams, 
+          EMAILJS_CONFIG.publicKey
+        )
+        
+        toast.success('Message envoyé avec succès ! Vous devriez recevoir une réponse dans les plus brefs délais.')
+        reset()
+      }
     } catch (error) {
+      console.error('Erreur:', error)
       toast.error('Erreur lors de l\'envoi. Veuillez réessayer.')
     } finally {
       setIsSubmitting(false)
@@ -368,6 +406,7 @@ export default function ContactPage() {
       </main>
       
       <Footer />
+      <AnalyticsWidget />
     </div>
   )
 }
