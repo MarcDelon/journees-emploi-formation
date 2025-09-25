@@ -92,7 +92,8 @@ export default function TemoignagesVideoSection() {
                   <img
                     src={temoignage.thumbnailUrl}
                     alt={temoignage.titre}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-top"
+                    style={{ objectPosition: 'center top' }}
                   />
                 ) : (
                   <div className="flex items-center justify-center h-full">

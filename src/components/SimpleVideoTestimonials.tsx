@@ -123,7 +123,8 @@ const SimpleVideoTestimonials = () => {
                 <video
                   ref={(el) => { videoRefs.current[index] = el; }}
                   src={video.videoUrl}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-top"
+                  style={{ objectPosition: 'center top' }}
                   onPlay={() => setPlayingVideo(index)}
                   onPause={() => setPlayingVideo(null)}
                   onEnded={() => setPlayingVideo(null)}

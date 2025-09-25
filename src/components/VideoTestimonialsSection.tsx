@@ -163,7 +163,8 @@ const VideoTestimonialsSection = () => {
                 <video
                   ref={videoRef}
                   src={videoTestimonials[currentVideo].videoUrl}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-top"
+                  style={{ objectPosition: 'center top' }}
                   poster={videoTestimonials[currentVideo].thumbnail || undefined}
                   onPlay={() => setIsPlaying(true)}
                   onPause={() => setIsPlaying(false)}
@@ -290,7 +291,8 @@ const VideoTestimonialsSection = () => {
                 <div className="aspect-video bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center relative overflow-hidden">
                   <video
                     src={video.videoUrl}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-top"
+                    style={{ objectPosition: 'center top' }}
                     muted
                     preload="metadata"
                   />

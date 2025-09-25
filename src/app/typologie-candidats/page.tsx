@@ -37,13 +37,12 @@ const niveauEtudeData = [
 export default function TypologieCandidatsPage() {
   const { scrollYProgress } = useScroll()
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 })
-  const [activeSection, setActiveSection] = useState<'ages' | 'typologie' | 'etudes' | 'accessibilite'>('ages')
+  const [activeSection, setActiveSection] = useState<'ages' | 'typologie' | 'etudes'>('ages')
   const [introVisible, setIntroVisible] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
   const agesRef = useRef<HTMLElement | null>(null)
   const typologieRef = useRef<HTMLElement | null>(null)
   const etudesRef = useRef<HTMLElement | null>(null)
-  const accessRef = useRef<HTMLElement | null>(null)
   const [ageActiveIndex, setAgeActiveIndex] = useState<number | null>(null)
   const [typeActiveIndex, setTypeActiveIndex] = useState<number | null>(null)
   const [barActiveIndex, setBarActiveIndex] = useState<number>(0)
@@ -123,12 +122,10 @@ export default function TypologieCandidatsPage() {
     agesRef.current = document.getElementById('ages') as HTMLElement
     typologieRef.current = document.getElementById('typologie') as HTMLElement
     etudesRef.current = document.getElementById('etudes') as HTMLElement
-    accessRef.current = document.getElementById('accessibilite') as HTMLElement
     const entriesToWatch = [
       { id: 'ages', el: agesRef.current },
       { id: 'typologie', el: typologieRef.current },
       { id: 'etudes', el: etudesRef.current },
-      { id: 'accessibilite', el: accessRef.current },
     ].filter((e) => e.el)
     const observer = new IntersectionObserver(
       (entries) => {
@@ -452,7 +449,6 @@ export default function TypologieCandidatsPage() {
               <a href="#ages" className={`px-3 py-1.5 rounded-full shadow text-sm font-medium transition ${activeSection==='ages' ? 'bg-blue-600 text-white' : 'bg-white/70 hover:bg-white text-gray-700'}`}>Âges</a>
               <a href="#typologie" className={`px-3 py-1.5 rounded-full shadow text-sm font-medium transition ${activeSection==='typologie' ? 'bg-blue-600 text-white' : 'bg-white/70 hover:bg-white text-gray-700'}`}>Typologie</a>
               <a href="#etudes" className={`px-3 py-1.5 rounded-full shadow text-sm font-medium transition ${activeSection==='etudes' ? 'bg-blue-600 text-white' : 'bg-white/70 hover:bg-white text-gray-700'}`}>Études</a>
-              <a href="#accessibilite" className={`px-3 py-1.5 rounded-full shadow text-sm font-medium transition ${activeSection==='accessibilite' ? 'bg-blue-600 text-white' : 'bg-white/70 hover:bg-white text-gray-700'}`}>Accessibilité</a>
             </div>
           </div>
         </div>
@@ -990,108 +986,6 @@ export default function TypologieCandidatsPage() {
               </div>
             </motion.div>
 
-            {/* Section Accessibilité améliorée */}
-            <motion.div
-              id="accessibilite"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.0 }}
-              className="relative"
-            >
-              {/* En-tête de section */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className="text-center mb-12"
-              >
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  viewport={{ once: true }}
-                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-full mb-6 shadow-lg"
-                >
-                  <span className="text-sm font-semibold">Inclusion et diversité</span>
-                </motion.div>
-                <h2 className="mobile-text-3xl font-display font-bold text-gray-800 mobile-mb">
-                  Engagement pour l'Accessibilité
-                </h2>
-                <p className="mobile-text-lg text-gray-600 max-w-2xl mx-auto">
-                  Notre engagement en faveur de l'inclusion et de l'accessibilité
-                </p>
-              </motion.div>
-
-              <div className="bg-gradient-to-r from-green-600 to-green-800 rounded-3xl shadow-2xl p-12 text-white text-center relative overflow-hidden group">
-                {/* Background Pattern amélioré */}
-                <div className="absolute inset-0 opacity-20">
-                <div className="absolute inset-0" style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/svg%3E")`,
-                    backgroundSize: '60px 60px'
-                }} />
-              </div>
-
-                {/* Éléments décoratifs */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
-                <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-12 -translate-x-12"></div>
-                
-                {/* Effet de brillance */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-                  animate={{ x: ["-100%", "100%"] }}
-                  transition={{ duration: 3, repeat: Infinity, delay: 1 }}
-                />
-              
-              <div className="relative z-10">
-                  <motion.div 
-                    className="flex items-center justify-center mb-8"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    <div className="bg-white rounded-full p-8 shadow-2xl group-hover:shadow-3xl transition-all duration-300">
-                      <svg className="w-20 h-20 text-green-600 group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                    </div>
-                  </motion.div>
-                  
-                  <h3 className="text-4xl font-bold mb-6">Inclusion et Accessibilité</h3>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-                    <motion.div 
-                      className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
-                      whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.15)" }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    >
-                      <div className="text-3xl font-bold text-white mb-2">13%</div>
-                      <div className="text-white/90">Candidats en situation de handicap</div>
-                    </motion.div>
-                    <motion.div 
-                      className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
-                      whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.15)" }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    >
-                      <div className="text-3xl font-bold text-white mb-2">100%</div>
-                      <div className="text-white/90">Accessibilité garantie</div>
-                    </motion.div>
-                    <motion.div 
-                      className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
-                      whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.15)" }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    >
-                      <div className="text-3xl font-bold text-white mb-2">24/7</div>
-                      <div className="text-white/90">Support inclusif</div>
-                  </motion.div>
-              </div>
-                  
-                  <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-                    Nous nous engageons à créer un environnement inclusif et accessible pour tous les participants, 
-                    en garantissant l'égalité des chances et l'accès à toutes les opportunités.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
 
           </div>
         </section>

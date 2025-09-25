@@ -106,7 +106,7 @@ export default function ContactPage() {
     {
       icon: MapPin,
       title: 'Adresse',
-      value: 'Geneva Hotel - Douala, Cameroun',
+      value: 'Douala, Cameroun',
       link: 'https://maps.google.com',
       color: 'text-egalite-blue'
     }

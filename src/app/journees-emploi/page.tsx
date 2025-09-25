@@ -1,18 +1,32 @@
 'use client'
 
 import { motion, useInView, PanInfo } from 'framer-motion'
-import { Calendar, MapPin, Users, Clock, Award, FileText, Image as ImageIcon, Video, Sparkles, Star, Zap, Target, TrendingUp, Eye } from 'lucide-react'
+import { Calendar, MapPin, Users, Clock, Award, FileText, Image as ImageIcon, Video, Sparkles, Star, Zap, Target, TrendingUp, Eye, Download } from 'lucide-react'
 import Image from 'next/image'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ParticipationForm from '@/components/ParticipationForm'
 import { useRef, useEffect, useState, Suspense } from 'react'
+import jsPDF from 'jspdf'
 
 // Composant carousel des éditions
 const EditionsCarousel = () => {
   const [currentEdition, setCurrentEdition] = useState(0)
   const [currentPhoto, setCurrentPhoto] = useState(0)
   const [isHovering, setIsHovering] = useState(false)
+
+  // S'assurer qu'on commence par une édition qui a des photos
+  useEffect(() => {
+    if (editions[currentEdition].photos.length === 0) {
+      const firstEditionWithPhotos = editions.findIndex(edition => edition.photos.length > 0)
+      if (firstEditionWithPhotos !== -1) {
+        setCurrentEdition(firstEditionWithPhotos)
+        setCurrentPhoto(0)
+      }
+    }
+  }, [])
+
+
 
   const editions = [
     { 
@@ -22,8 +36,7 @@ const EditionsCarousel = () => {
       photos: [
         "/images/1.jpeg",
         "/images/1 (2).jpeg", 
-        "/images/1 (3).jpeg",
-        "/images/1 (4).jpeg"
+        "/images/1 (3).jpeg"
       ]
     },
     { 
@@ -31,7 +44,7 @@ const EditionsCarousel = () => {
       edition: "2ème édition", 
       year: "2021",
       photos: [
-        "/images/2.jpeg",
+        "/images/2 (1).jpeg",
         "/images/2 (2).jpeg",
         "/images/2 (3).jpeg", 
         "/images/2 (4).jpeg"
@@ -48,9 +61,13 @@ const EditionsCarousel = () => {
       edition: "4ème édition", 
       year: "2023",
       photos: [
-        "/images/4.jpeg",
+        "/images/4 (1).jpeg",
         "/images/4 (2).jpeg",
-        "/images/4 (3).jpeg"
+        "/images/4 (3).jpeg",
+        "/images/4 (4).jpeg",
+        "/images/4 (5).jpeg",
+        "/images/4 (6).jpeg",
+        "/images/4 (7).jpeg"
       ]
     },
     { 
@@ -59,14 +76,31 @@ const EditionsCarousel = () => {
       year: "2024",
       photos: [
         "/images/5.jpeg",
+        "/images/5 (1).jpeg",
         "/images/5 (2).jpeg",
         "/images/5 (3).jpeg",
-        "/images/5 (4).jpeg"
+        "/images/5 (4).jpeg",
+        "/images/5 (5).jpeg",
+        "/images/5 (6).jpeg",
+        "/images/5 (7).jpeg",
+        "/images/5 (8).jpeg",
+        "/images/5 (9).jpeg",
+        "/images/5 (10).jpeg",
+        "/images/5 (11).jpeg",
+        "/images/5 (12).jpeg",
+        "/images/5 (13).jpeg",
+        "/images/5 (14).jpeg",
+        "/images/5 (15).jpeg",
+        "/images/5 (16).jpeg",
+        "/images/5 (17).jpeg",
+        "/images/5 (18).jpeg",
+        "/images/5 (19).jpeg",
+        "/images/5 (20).jpeg"
       ]
     }
   ]
 
-  // Auto-play le carousel toutes les 3 secondes si pas en hover
+  // Auto-play le carousel toutes les 4 secondes si pas en hover
   useEffect(() => {
     if (!isHovering) {
       const interval = setInterval(() => {
@@ -88,7 +122,7 @@ const EditionsCarousel = () => {
           setCurrentEdition((prev) => (prev + 1) % editions.length)
           setCurrentPhoto(0)
         }
-      }, 3000)
+      }, 4000) // Augmenté à 4 secondes pour mieux voir les photos
       return () => clearInterval(interval)
     }
   }, [isHovering, currentEdition, currentPhoto, editions])
@@ -165,7 +199,7 @@ const EditionsCarousel = () => {
 
       {/* Contenu principal */}
       <div className="relative z-10 h-full flex items-center justify-center px-4 md:px-8">
-        <div className="text-center w-full max-w-7xl mx-auto">
+        <div className="mobile-center w-full max-w-7xl mx-auto">
           {/* En-tête */}
           <motion.div
             className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm text-egalite-dark px-4 sm:px-6 py-2 sm:py-3 rounded-full mb-6"
@@ -198,10 +232,10 @@ const EditionsCarousel = () => {
             Découvrez les moments forts de nos éditions passées
           </motion.p>
 
-          {/* Grand cadre avec photo principale */}
-          <div className="relative w-full mx-auto mb-8">
+          {/* Photo principale */}
+          <div className="relative w-full max-w-2xl mx-auto mb-8">
             <motion.div
-              className="relative bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-2xl border border-gray-200/50 overflow-hidden cursor-grab active:cursor-grabbing"
+              className="relative aspect-square rounded-xl overflow-hidden cursor-grab active:cursor-grabbing"
               key={currentEdition}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -212,16 +246,16 @@ const EditionsCarousel = () => {
               dragElastic={0.1}
             >
               {/* Image principale */}
-              <div className="relative h-80 md:h-96 lg:h-[500px] rounded-xl overflow-hidden mb-6">
                 {editions[currentEdition].photos.length > 0 ? (
-                  <Image 
-                    src={editions[currentEdition].photos[currentPhoto]} 
-                    alt={`${editions[currentEdition].edition} - Photo ${currentPhoto + 1}`}
-                    fill
-                    className="object-cover object-top select-none"
-                    sizes="(max-width: 768px) 100vw, 80vw"
-                    draggable={false}
-                  />
+                    <img 
+                      src={editions[currentEdition].photos[currentPhoto]} 
+                      alt={`${editions[currentEdition].edition} - Photo ${currentPhoto + 1}`}
+                  className="w-full h-full square-person-image"
+                      onError={(e) => {
+                        console.error('Image failed to load:', editions[currentEdition].photos[currentPhoto])
+                        e.currentTarget.style.display = 'none'
+                      }}
+                    />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-egalite-blue/20 to-egalite-yellow/20 flex items-center justify-center">
                     <motion.div
@@ -234,6 +268,44 @@ const EditionsCarousel = () => {
                       <Video className="w-20 h-20 text-egalite-blue" />
                     </motion.div>
                   </div>
+                )}
+
+                {/* Boutons de navigation */}
+                {editions[currentEdition].photos.length > 1 && (
+                  <>
+                    <button
+                      onClick={() => {
+                        if (currentPhoto > 0) {
+                          setCurrentPhoto(prev => prev - 1)
+                        } else {
+                          const prevEdition = (currentEdition - 1 + editions.length) % editions.length
+                          setCurrentEdition(prevEdition)
+                          setCurrentPhoto(editions[prevEdition].photos.length - 1)
+                        }
+                      }}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (currentPhoto < editions[currentEdition].photos.length - 1) {
+                          setCurrentPhoto(prev => prev + 1)
+                        } else {
+                          const nextEdition = (currentEdition + 1) % editions.length
+                          setCurrentEdition(nextEdition)
+                          setCurrentPhoto(0)
+                        }
+                      }}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </>
                 )}
                 
                 {/* Overlay avec informations */}
@@ -256,20 +328,12 @@ const EditionsCarousel = () => {
                       <div
                         key={index}
                         className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                          index === currentPhoto ? 'bg-white' : 'bg-white/50'
+                          index === currentPhoto ? 'bg-white scale-125' : 'bg-white/50'
                         }`}
                       />
                     ))}
                   </div>
                 )}
-              </div>
-
-              {/* Description */}
-              <div className="text-center">
-                <p className="text-gray-600 text-lg">
-                  Moment fort de l'édition précédente
-                </p>
-              </div>
             </motion.div>
           </div>
 
@@ -288,15 +352,7 @@ const EditionsCarousel = () => {
             ))}
           </div>
 
-          {/* Bouton d'action */}
-          <motion.button
-            className="bg-white/20 backdrop-blur-sm text-egalite-dark border-2 border-egalite-blue/30 hover:border-egalite-blue/50 font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:bg-white/30 flex items-center space-x-2 mx-auto"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Eye className="w-4 h-4" />
-            <span>Voir toutes les photos</span>
-          </motion.button>
+
         </div>
       </div>
     </motion.div>
@@ -328,9 +384,42 @@ export default function JourneesEmploiPage() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   // Auto-scroll délégué au composant Suspense-safe ScrollToForm
 
+  // Fonction pour télécharger l'affiche en PDF
+  const downloadAffiche = async () => {
+    try {
+      // Charger l'image
+      const response = await fetch('/images/affiche.jpeg')
+      const blob = await response.blob()
+      
+      // Convertir le blob en base64
+      const reader = new FileReader()
+      reader.onload = () => {
+        const base64 = reader.result as string
+        
+        // Créer un nouveau PDF
+        const pdf = new jsPDF({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: 'a4'
+        })
+        
+        // Ajouter l'image au PDF (format A4: 210x297mm)
+        pdf.addImage(base64, 'JPEG', 0, 0, 210, 297)
+        
+        // Télécharger le PDF
+        pdf.save('affiche-journees-emploi.pdf')
+      }
+      
+      reader.readAsDataURL(blob)
+    } catch (error) {
+      console.error('Erreur lors du téléchargement:', error)
+      alert('Erreur lors du téléchargement de l\'affiche')
+    }
+  }
+
   const eventDetails = {
     date: '12-14 novembre 2025',
-    location: 'Geneva Hotel - Douala',
+    location: 'Douala',
     attendees: '2500+ visiteurs attendus',
     duration: '3 jours',
     companies: '80+ entreprises participantes'
@@ -444,7 +533,7 @@ export default function JourneesEmploiPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-center max-w-4xl mx-auto"
+              className="mobile-center max-w-4xl mx-auto"
             >
               {/* Badge animé */}
               <motion.div
@@ -596,7 +685,7 @@ export default function JourneesEmploiPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="text-center mb-16"
+              className="mobile-center mb-16"
             >
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -706,7 +795,7 @@ export default function JourneesEmploiPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="text-center"
+              className="mobile-center"
             >
               <h2 className="text-3xl md:text-4xl font-display font-bold text-egalite-dark mb-6">
                 Affiche officielle
@@ -717,8 +806,12 @@ export default function JourneesEmploiPage() {
                   <p className="text-gray-600 mb-4">
                     L'affiche officielle de l'événement sera disponible ici
                   </p>
-                  <button className="btn-primary">
-                    Télécharger l'affiche
+                  <button 
+                    className="btn-primary btn-mobile flex items-center space-x-2 mx-auto"
+                    onClick={downloadAffiche}
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Télécharger l'affiche</span>
                   </button>
                 </div>
               </div>
@@ -754,7 +847,7 @@ export default function JourneesEmploiPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="text-center mb-16"
+              className="mobile-center mb-16"
             >
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -790,7 +883,7 @@ export default function JourneesEmploiPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="text-center mb-16"
+              className="mobile-center mb-16"
             >
               <h2 className="text-3xl md:text-4xl font-display font-bold text-egalite-dark mb-6">
                 Participer à l'événement

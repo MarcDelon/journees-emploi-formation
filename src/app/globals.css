@@ -39,15 +39,33 @@
   }
 
   .btn-primary {
-    @apply bg-white hover:bg-gray-50 text-black font-semibold py-2.5 px-4 sm:py-3 sm:px-6 rounded-lg border-2 border-black transition-all duration-300 transform hover:scale-105 text-sm sm:text-base;
+    @apply bg-white hover:bg-gray-50 text-black font-semibold py-2 px-3 sm:py-2.5 sm:px-4 md:py-3 md:px-6 rounded-lg border-2 border-black transition-all duration-300 transform hover:scale-105 text-xs sm:text-sm md:text-base w-full sm:w-auto;
   }
 
   .btn-secondary {
-    @apply bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold py-2.5 px-4 sm:py-3 sm:px-6 rounded-lg transition-all duration-300 transform hover:scale-105 text-sm sm:text-base;
+    @apply bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold py-2 px-3 sm:py-2.5 sm:px-4 md:py-3 md:px-6 rounded-lg transition-all duration-300 transform hover:scale-105 text-xs sm:text-sm md:text-base w-full sm:w-auto;
   }
 
   .section-padding {
     @apply py-12 sm:py-16 md:py-20 lg:py-24;
+  }
+
+  /* Classe pour optimiser l'affichage des visages dans les images */
+  .person-image {
+    @apply object-cover object-top;
+    object-position: center top;
+  }
+
+  /* Classe pour les images de personnes avec un positionnement plus précis */
+  .person-image-focus {
+    @apply object-cover object-top;
+    object-position: center 20%;
+  }
+
+  /* Classe spéciale pour les images carrées avec visages */
+  .square-person-image {
+    @apply object-cover object-top;
+    object-position: center 15%;
   }
 
   /* Classes pour l'effet de roue 3D */
@@ -639,6 +657,36 @@
 
   .mobile-py {
     @apply py-3 sm:py-4 md:py-6 lg:py-8;
+  }
+
+  /* Classes pour les boutons mobiles */
+  .btn-mobile {
+    @apply w-full sm:w-auto text-center justify-center;
+  }
+
+  .btn-mobile-sm {
+    @apply py-1.5 px-2 text-xs sm:py-2 sm:px-3 sm:text-sm;
+  }
+
+  .btn-mobile-md {
+    @apply py-2 px-3 text-sm sm:py-2.5 sm:px-4 sm:text-base;
+  }
+
+  .btn-mobile-lg {
+    @apply py-2.5 px-4 text-base sm:py-3 sm:px-6 sm:text-lg;
+  }
+
+  /* Centrage amélioré pour mobile */
+  .mobile-center {
+    @apply flex flex-col items-center justify-center text-center;
+  }
+
+  .mobile-center-h {
+    @apply flex items-center justify-center;
+  }
+
+  .mobile-center-v {
+    @apply flex flex-col items-center;
   }
 }
 

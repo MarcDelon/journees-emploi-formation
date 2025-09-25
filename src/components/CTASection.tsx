@@ -130,7 +130,7 @@ const CTASection = () => {
               transition={{ duration: 0.2 }}
             >
               <Users className="w-6 h-6" />
-              <span className="text-lg">Geneva Hotel - Douala</span>
+              <span className="text-lg">Douala</span>
             </motion.div>
           </motion.div>
 

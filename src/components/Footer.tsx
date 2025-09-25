@@ -102,7 +102,7 @@ const Footer = () => {
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
                 <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-event-orange prevent-shrink mt-0.5" />
-                <span className="leading-relaxed">Douala, Cameroun - Geneva Hotel - 12-14 novembre 2025</span>
+                <span className="leading-relaxed">Douala, Cameroun - 12-14 novembre 2025</span>
               </motion.div>
             </div>
           </div>

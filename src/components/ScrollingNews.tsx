@@ -27,7 +27,7 @@ const ScrollingNews = () => {
     {
       id: 2,
       icon: <Calendar className="w-4 h-4" />,
-      text: "6e édition : 12-14 novembre 2025 – Geneva Hotel",
+      text: "6e édition : 12-14 novembre 2025 – Douala",
       color: "from-blue-600 to-cyan-500"
     },
     {

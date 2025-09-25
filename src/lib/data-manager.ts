@@ -168,7 +168,7 @@ class InMemoryDataManager {
 			reseauxSociaux: {},
 			editionActuelle: '6e Édition',
 			dateEvenement: '12-14 novembre 2025',
-			lieuEvenement: 'Geneva Hotel, Douala'
+			lieuEvenement: 'Douala'
 		}
 		
 		this.configuration = {
