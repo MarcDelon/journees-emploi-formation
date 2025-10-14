@@ -29,9 +29,27 @@ export default function OffresEmploiPage() {
     const load = async () => {
       setLoading(true)
       try {
-        const res = await fetch('/api/offres', { cache: 'no-store' })
-        const json = await res.json()
-        const rows = (json?.data || []) as Array<any>
+        // Timeout sécurisé (6s) + AbortController
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), 6000)
+
+        const res = await fetch('/api/offres', { cache: 'no-store', signal: controller.signal })
+        clearTimeout(timeoutId)
+
+        // Vérifier statut HTTP
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`)
+        }
+
+        // Essayer de parser le JSON en sécurité
+        let json: any = null
+        try {
+          json = await res.json()
+        } catch {
+          json = { data: [] }
+        }
+
+        const rows = (json && Array.isArray(json.data) ? json.data : []) as Array<any>
 
         const mappedFromApi: Offre[] = rows.map((r: any) => ({
           id: r.id ?? String(r.id),
@@ -61,7 +79,25 @@ export default function OffresEmploiPage() {
           setOffers(mappedFromSeeds)
         }
       } catch (e) {
-        console.error(e)
+        // En cas d'erreur réseau/timeout/API -> fallback immédiat
+        console.error('Erreur chargement offres, fallback local:', e)
+        try {
+          const seeds = await getOffresEmploi()
+          const mappedFromSeeds: Offre[] = seeds.map((s: any) => ({
+            id: String(s.id),
+            title: s.titre,
+            company: s.entreprise,
+            description: s.description,
+            type: (s.type as any) ?? 'Stage',
+            domain: '',
+            location: s.lieu,
+            deadline: s.datePublication
+          }))
+          setOffers(mappedFromSeeds)
+        } catch (seedErr) {
+          console.error('Erreur fallback seed:', seedErr)
+          setOffers([])
+        }
       } finally {
         setLoading(false)
         // Signal global loader that offres page is ready for interaction

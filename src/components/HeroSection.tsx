@@ -202,7 +202,7 @@ const HeroSection = () => {
                 className="btn-primary btn-mobile group flex items-center justify-center space-x-2 relative overflow-hidden"
               >
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-egalite-blue to-blue-600"
+                  className="absolute inset-0 bg-gradient-to-r from-egalite-blue to-blue-600 pointer-events-none"
                   initial={{ x: "-100%" }}
                   whileHover={{ x: "0%" }}
                   transition={{ type: "spring", stiffness: 400, damping: 25 }}
@@ -223,7 +223,7 @@ const HeroSection = () => {
                 className="btn-secondary btn-mobile group flex items-center justify-center space-x-2 relative overflow-hidden"
               >
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-egalite-yellow to-yellow-500"
+                  className="absolute inset-0 bg-gradient-to-r from-egalite-yellow to-yellow-500 pointer-events-none"
                   initial={{ x: "-100%" }}
                   whileHover={{ x: "0%" }}
                   transition={{ type: "spring", stiffness: 400, damping: 25 }}
