@@ -162,12 +162,12 @@ const Footer = () => {
                   transition={{ delay: index * 0.1, duration: 0.3 }}
                   viewport={{ once: true }}
                 >
-                  <Link
-                    href={link.href}
-                    className="text-gray-300 hover:text-egalite-blue transition-all duration-200 text-sm sm:text-base block py-1"
+                  <span
+                    aria-disabled="true"
+                    className="text-gray-400 text-sm sm:text-base block py-1 cursor-not-allowed select-none"
                   >
                     {link.name}
-                  </Link>
+                  </span>
                 </motion.li>
               ))}
             </ul>

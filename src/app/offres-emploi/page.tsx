@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Search, Filter, MapPin, Building, Calendar, Download, Send, Sparkles } from 'lucide-react'
+import { getOffresEmploi } from '@/lib/data'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
@@ -30,22 +31,43 @@ export default function OffresEmploiPage() {
       try {
         const res = await fetch('/api/offres', { cache: 'no-store' })
         const json = await res.json()
-        const rows = (json.data || []) as Array<any>
-        const mapped: Offre[] = rows.map((r: any) => ({
-          id: r.id,
-          title: r.title,
-          company: r.company,
-          description: r.description,
-          type: r.type,
-          domain: r.domain,
-          location: r.location,
-          deadline: r.deadline || undefined
+        const rows = (json?.data || []) as Array<any>
+
+        const mappedFromApi: Offre[] = rows.map((r: any) => ({
+          id: r.id ?? String(r.id),
+          title: r.title ?? r.titre ?? '',
+          company: r.company ?? r.entreprise ?? '',
+          description: r.description ?? r.descriptif ?? '',
+          type: r.type ?? r.typeContrat ?? 'Stage',
+          domain: r.domain ?? r.domaine ?? '',
+          location: r.location ?? r.lieu ?? '',
+          deadline: r.deadline ?? r.dateLimite ?? undefined
         }))
-        setOffers(mapped)
+
+        if (mappedFromApi.length > 0) {
+          setOffers(mappedFromApi)
+        } else {
+          const seeds = await getOffresEmploi()
+          const mappedFromSeeds: Offre[] = seeds.map((s: any) => ({
+            id: String(s.id),
+            title: s.titre,
+            company: s.entreprise,
+            description: s.description,
+            type: (s.type as any) ?? 'Stage',
+            domain: '',
+            location: s.lieu,
+            deadline: s.datePublication
+          }))
+          setOffers(mappedFromSeeds)
+        }
       } catch (e) {
         console.error(e)
       } finally {
         setLoading(false)
+        // Signal global loader that offres page is ready for interaction
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new Event('offres-ready'))
+        }
       }
     }
     load()
@@ -71,6 +93,24 @@ export default function OffresEmploiPage() {
       default:
         return 'bg-gray-100 text-gray-800'
     }
+  }
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 z-40 flex items-center justify-center bg-white">
+        <div className="flex flex-col items-center w-64">
+          <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden mb-3">
+            <motion.div
+              className="h-full bg-black"
+              initial={{ width: '0%' }}
+              animate={{ width: ['0%', '70%', '100%'] }}
+              transition={{ duration: 1.6, ease: 'easeInOut', repeat: Infinity }}
+            />
+          </div>
+          <p className="text-sm text-gray-600">Chargement des offres d'emploi…</p>
+        </div>
+      </div>
+    )
   }
 
   return (
