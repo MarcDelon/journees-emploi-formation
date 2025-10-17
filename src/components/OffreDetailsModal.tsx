@@ -8,7 +8,7 @@ interface OffreDetailsModalProps {
     id: string
     title: string
     company: string
-    description: string
+    description?: string
     type: string
     domain: string
     location: string
@@ -93,14 +93,16 @@ export default function OffreDetailsModal({ offre, isOpen, onClose }: OffreDetai
           </div>
 
           {/* Description */}
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">Description du poste</h3>
-            <div className="prose prose-sm max-w-none">
-              <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-                {offre.description}
-              </p>
+          {offre.description && (
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Description du poste</h3>
+              <div className="prose prose-sm max-w-none">
+                <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+                  {offre.description}
+                </p>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Details */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
