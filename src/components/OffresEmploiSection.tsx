@@ -9,7 +9,7 @@ import OffreDetailsModal from './OffreDetailsModal';
 export default function OffresEmploiSection() {
   const [offres, setOffres] = useState<OffreEmploi[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedOffre, setSelectedOffre] = useState<OffreEmploi | null>(null);
+  const [selectedOffre, setSelectedOffre] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -52,7 +52,18 @@ export default function OffresEmploiSection() {
   };
 
   const handleViewDetails = (offre: OffreEmploi) => {
-    setSelectedOffre(offre);
+    // Convertir OffreEmploi vers le format attendu par OffreDetailsModal
+    const offreForModal = {
+      id: offre.id,
+      title: offre.titre,
+      company: offre.entreprise,
+      description: offre.description,
+      type: offre.typeContrat,
+      domain: offre.competences.join(', '), // Utiliser les compétences comme domaine
+      location: offre.lieu,
+      deadline: offre.dateExpiration
+    };
+    setSelectedOffre(offreForModal as any);
     setIsModalOpen(true);
   };
 
