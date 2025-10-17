@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Search, Filter, MapPin, Building, Calendar, Download, Send, Sparkles } from 'lucide-react'
+import { Search, Filter, MapPin, Building, Calendar, Eye, Send, Sparkles } from 'lucide-react'
 import { getOffresEmploi } from '@/lib/data'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import OffreDetailsModal from '@/components/OffreDetailsModal'
 
 type Offre = {
   id: string
@@ -24,10 +25,14 @@ export default function OffresEmploiPage() {
   const [showFilters, setShowFilters] = useState(false)
   const [offers, setOffers] = useState<Offre[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [selectedOffre, setSelectedOffre] = useState<Offre | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
-    const load = async () => {
+    const load = async (retryCount = 0) => {
       setLoading(true)
+      setError(null)
       try {
         // Timeout sécurisé (6s) + AbortController
         const controller = new AbortController()
@@ -62,42 +67,21 @@ export default function OffresEmploiPage() {
           deadline: r.deadline ?? r.dateLimite ?? undefined
         }))
 
-        if (mappedFromApi.length > 0) {
-          setOffers(mappedFromApi)
-        } else {
-          const seeds = await getOffresEmploi()
-          const mappedFromSeeds: Offre[] = seeds.map((s: any) => ({
-            id: String(s.id),
-            title: s.titre,
-            company: s.entreprise,
-            description: s.description,
-            type: (s.type as any) ?? 'Stage',
-            domain: '',
-            location: s.lieu,
-            deadline: s.datePublication
-          }))
-          setOffers(mappedFromSeeds)
-        }
+        setOffers(mappedFromApi)
       } catch (e) {
-        // En cas d'erreur réseau/timeout/API -> fallback immédiat
-        console.error('Erreur chargement offres, fallback local:', e)
-        try {
-          const seeds = await getOffresEmploi()
-          const mappedFromSeeds: Offre[] = seeds.map((s: any) => ({
-            id: String(s.id),
-            title: s.titre,
-            company: s.entreprise,
-            description: s.description,
-            type: (s.type as any) ?? 'Stage',
-            domain: '',
-            location: s.lieu,
-            deadline: s.datePublication
-          }))
-          setOffers(mappedFromSeeds)
-        } catch (seedErr) {
-          console.error('Erreur fallback seed:', seedErr)
-          setOffers([])
+        console.error('Erreur chargement offres:', e)
+        
+        // Retry automatique jusqu'à 3 fois
+        if (retryCount < 3) {
+          console.log(`Tentative ${retryCount + 1}/3...`)
+          setTimeout(() => {
+            load(retryCount + 1)
+          }, 2000 * (retryCount + 1)) // Délai progressif : 2s, 4s, 6s
+          return
         }
+        
+        setOffers([])
+        setError("Impossible de charger les offres. Vérifiez votre connexion et réessayez.")
       } finally {
         setLoading(false)
         // Signal global loader that offres page is ready for interaction
@@ -108,6 +92,22 @@ export default function OffresEmploiPage() {
     }
     load()
   }, [])
+
+  const retry = () => {
+    if (typeof window !== 'undefined') {
+      window.location.reload()
+    }
+  }
+
+  const handleViewDetails = (offre: Offre) => {
+    setSelectedOffre(offre)
+    setIsModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setSelectedOffre(null)
+  }
 
   const filteredOffers = offers.filter(offer => {
     const matchesSearch = offer.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -145,6 +145,24 @@ export default function OffresEmploiPage() {
           </div>
           <p className="text-sm text-gray-600">Chargement des offres d'emploi…</p>
         </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col">
+        <Header />
+        <main className="flex-1 flex items-center justify-center p-6">
+          <div className="max-w-md w-full text-center">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-3">Un problème est survenu</h2>
+            <p className="text-gray-600 mb-6">{error}</p>
+            <button onClick={retry} className="btn-primary btn-mobile inline-flex items-center justify-center">
+              Réessayer
+            </button>
+          </div>
+        </main>
+        <Footer />
       </div>
     )
   }
@@ -305,15 +323,40 @@ export default function OffresEmploiPage() {
                     </div>
 
                     <div className="flex justify-end">
-                      <button className="px-6 py-3 border-2 border-black text-black hover:bg-gray-50 rounded-xl transition-all duration-300 shadow-lg">
-                        <Download className="w-5 h-5" />
+                      <button 
+                        onClick={() => handleViewDetails(offer)}
+                        className="px-6 py-3 border-2 border-black text-black hover:bg-gray-50 rounded-xl transition-all duration-300 shadow-lg flex items-center space-x-2"
+                        title="Voir les détails de l'offre"
+                      >
+                        <Eye className="w-5 h-5" />
+                        <span className="text-sm font-medium">Voir détails</span>
                       </button>
                     </div>
                   </motion.div>
                 ))}
               </div>
 
-              {filteredOffers.length === 0 && (
+              {error && (
+                <div className="text-center py-12">
+                  <div className="text-red-400 mb-4">
+                    <Search className="w-16 h-16 mx-auto" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-red-600 mb-2">
+                    Erreur de chargement
+                  </h3>
+                  <p className="text-gray-500 mb-4">
+                    {error}
+                  </p>
+                  <button
+                    onClick={retry}
+                    className="px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors"
+                  >
+                    Réessayer
+                  </button>
+                </div>
+              )}
+
+              {!error && filteredOffers.length === 0 && (
                 <div className="text-center py-12">
                   <div className="text-gray-400 mb-4">
                     <Search className="w-16 h-16 mx-auto" />
@@ -332,6 +375,15 @@ export default function OffresEmploiPage() {
       </main>
       
       <Footer />
+      
+      {/* Modal des détails */}
+      {selectedOffre && (
+        <OffreDetailsModal
+          offre={selectedOffre}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   )
 }

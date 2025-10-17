@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { ArrowRight, Users, Calendar, Briefcase, Star, CheckCircle } from 'lucide-react'
 import { toast } from 'react-hot-toast'
 import { usePageTracking } from '@/hooks/usePageTracking'
+import ApiLoadingBar from '@/components/ApiLoadingBar'
 
 export default function WelcomePage() {
   const router = useRouter()
@@ -15,12 +16,21 @@ export default function WelcomePage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+  const [showApiLoading, setShowApiLoading] = useState(false)
 
   // Tracker les vues de page
   usePageTracking()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const handleDirectAccess = () => {
+    setShowApiLoading(true)
+  }
+
+  const handleApiLoadingComplete = () => {
+    router.push('/home')
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -82,7 +92,7 @@ export default function WelcomePage() {
       
       // Le comptage des candidatures se fait maintenant via la base de données
       setSuccess(true)
-      setTimeout(() => router.push('/home'), 2000)
+      setTimeout(() => setShowApiLoading(true), 2000)
     } catch (err: any) {
       console.error('Erreur:', err)
       toast.error(`❌ Erreur : ${err.message || 'Problème de connexion. Veuillez réessayer.'}`, {
@@ -193,13 +203,13 @@ export default function WelcomePage() {
                 transition={{ duration: 0.6, delay: 0.5 }}
                 className="flex justify-start"
               >
-                <Link
-                  href="/home"
+                <button
+                  onClick={handleDirectAccess}
                   className="bg-white/20 hover:bg-white/30 border-2 border-white/50 hover:border-white/70 text-white py-4 px-8 rounded-xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-white/25 flex items-center justify-center space-x-2 backdrop-blur-sm"
                 >
                   <span>Accéder au site</span>
                   <ArrowRight className="w-5 h-5" />
-                </Link>
+                </button>
               </motion.div>
 
         </motion.div>
@@ -354,6 +364,11 @@ export default function WelcomePage() {
           </div>
         </div>
       </main>
+
+      {/* API Loading Bar */}
+      {showApiLoading && (
+        <ApiLoadingBar onComplete={handleApiLoadingComplete} />
+      )}
     </div>
   )
 }

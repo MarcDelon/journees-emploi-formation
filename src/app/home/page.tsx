@@ -13,6 +13,7 @@ import ScrollingNews from '@/components/ScrollingNews'
 import FloatingElements from '@/components/FloatingElements'
 import VideoTestimonialsSection from '@/components/VideoTestimonialsSection'
 import PartenairesSection from '@/components/PartenairesSection'
+import ConnectionStatus from '@/components/ConnectionStatus'
 import { usePageTracking } from '@/hooks/usePageTracking'
 
 export default function HomePage() {
@@ -37,6 +38,7 @@ export default function HomePage() {
     <div ref={containerRef} className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden">
       <DynamicBackground />
       <FloatingElements />
+      <ConnectionStatus />
       <Header />
       <main className="relative z-10 pt-16">
         <ScrollingNews />

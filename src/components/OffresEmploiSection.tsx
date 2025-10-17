@@ -2,29 +2,63 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Clock, Building, ExternalLink } from 'lucide-react';
+import { MapPin, Clock, Building, Eye } from 'lucide-react';
 import { OffreEmploi } from '@/lib/types';
+import OffreDetailsModal from './OffreDetailsModal';
 
 export default function OffresEmploiSection() {
   const [offres, setOffres] = useState<OffreEmploi[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedOffre, setSelectedOffre] = useState<OffreEmploi | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     loadOffres();
   }, []);
 
-  const loadOffres = async () => {
+  const loadOffres = async (retryCount = 0) => {
     try {
-      const response = await fetch('/api/offres');
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      
+      const response = await fetch('/api/offres', {
+        signal: controller.signal,
+        cache: 'no-store'
+      });
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      
       const data = await response.json();
       if (data.success) {
         setOffres(data.data.slice(0, 6)); // Afficher seulement les 6 premières
       }
     } catch (error) {
       console.error('Erreur lors du chargement des offres:', error);
+      
+      // Retry automatique jusqu'à 2 fois
+      if (retryCount < 2) {
+        console.log(`Tentative ${retryCount + 1}/2...`);
+        setTimeout(() => {
+          loadOffres(retryCount + 1);
+        }, 2000 * (retryCount + 1));
+        return;
+      }
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleViewDetails = (offre: OffreEmploi) => {
+    setSelectedOffre(offre);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedOffre(null);
   };
 
   const getTypeContratColor = (type: string) => {
@@ -138,9 +172,13 @@ export default function OffresEmploiSection() {
                       </span>
                     )}
                   </div>
-                  <button className="text-event-blue hover:text-blue-700 text-sm font-medium flex items-center">
-                    Voir l'offre
-                    <ExternalLink className="w-3 h-3 ml-1" />
+                  <button 
+                    onClick={() => handleViewDetails(offre)}
+                    className="text-event-blue hover:text-blue-700 text-sm font-medium flex items-center space-x-1"
+                    title="Voir les détails de l'offre"
+                  >
+                    <Eye className="w-3 h-3" />
+                    <span>Voir détails</span>
                   </button>
                 </div>
               </div>
@@ -157,9 +195,19 @@ export default function OffresEmploiSection() {
           </a>
         </div>
       </div>
+      
+      {/* Modal des détails */}
+      {selectedOffre && (
+        <OffreDetailsModal
+          offre={selectedOffre}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+        />
+      )}
     </section>
   );
 }
+
 
 
 
