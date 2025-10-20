@@ -7,6 +7,8 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 
 export async function GET() {
   try {
+    console.log('Fetching analytics data...')
+    
     // Compter le nombre total de vues
     const { count: totalViews, error: viewsError } = await supabase
       .from('page_views')
@@ -14,8 +16,16 @@ export async function GET() {
 
     if (viewsError) {
       console.error('Error counting page views:', viewsError)
-      return NextResponse.json({ error: 'Failed to get analytics' }, { status: 500 })
+      // Retourner 0 au lieu d'une erreur pour éviter de casser le dashboard
+      return NextResponse.json({ 
+        totalViews: 0, 
+        uniqueViews: 0, 
+        pageViews: [], 
+        lastUpdated: new Date().toISOString() 
+      })
     }
+    
+    console.log('Total views found:', totalViews)
 
     // Compter les vues uniques (par IP) - approximation
     const { data: uniqueViews, error: uniqueError } = await supabase

@@ -12,7 +12,7 @@
 1. Dans le dashboard, allez dans "Email Services"
 2. Cliquez sur "Add New Service"
 3. Sélectionnez "Gmail"
-4. Connectez votre compte Gmail (marcnzenang@gmail.com)
+4. Connectez votre compte Gmail (journeemploiformation@gmail.com)
 5. Donnez un nom au service (ex: "contact_service")
 6. **Copiez le Service ID** (ex: service_xxxxxxx)
 
@@ -62,7 +62,7 @@ export const EMAILJS_CONFIG = {
   serviceId: 'service_xxxxxxx', // Votre Service ID
   templateId: 'template_xxxxxxx', // Votre Template ID  
   publicKey: 'xxxxxxxxxxxxxxxx', // Votre Public Key
-  toEmail: 'marcnzenang@gmail.com' // Email de destination
+  toEmail: 'journeemploiformation@gmail.com' // Email de destination
 }
 ```
 
@@ -90,6 +90,7 @@ export const EMAILJS_CONFIG = {
 - Support par email
 
 Pour plus d'emails, passez au plan payant (à partir de 15$/mois).
+
 
 
 

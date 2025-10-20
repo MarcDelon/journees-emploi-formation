@@ -54,7 +54,7 @@ export default function ContactPage() {
           `Newsletter: ${data.accepteNewsletter ? 'Oui' : 'Non'}`
         )
         
-        const mailtoLink = `mailto:marcnzenang@gmail.com?subject=${subject}&body=${body}`
+        const mailtoLink = `mailto:journeemploiformation@gmail.com?subject=${subject}&body=${body}`
         window.location.href = mailtoLink
         
         toast.success('Votre client email va s\'ouvrir. Veuillez envoyer le message.')

@@ -72,15 +72,33 @@ export default function AdminDashboard() {
           supabase.from('job_offers').select('*', { count: 'exact', head: true }),
           supabase.from('partners').select('*', { count: 'exact', head: true }),
           supabase.from('registrations').select('*', { count: 'exact', head: true }),
-          fetch('/api/admin/analytics').then(res => res.json()).catch(() => ({ totalViews: 0 }))
+          fetch('/api/admin/analytics').then(res => res.json()).catch((error) => {
+            console.error('Error fetching analytics:', error)
+            return { totalViews: 0 }
+          })
         ])
+
+        // Fallback pour les vues si l'API analytics échoue
+        let totalViews = analytics.totalViews || 0
+        if (totalViews === 0) {
+          // Essayer de récupérer depuis localStorage comme fallback
+          try {
+            const localAnalytics = localStorage.getItem('site_analytics')
+            if (localAnalytics) {
+              const parsed = JSON.parse(localAnalytics)
+              totalViews = parsed.visitors || 0
+            }
+          } catch (e) {
+            console.log('No local analytics found')
+          }
+        }
 
         setStats(prev => ({
           offres: offers.count || 0,
           videos: prev.videos, // TODO: connecter à table vidéos si dispo
           images: prev.images, // TODO: connecter à table images si dispo
           partenaires: partners.count || 0,
-          vues: analytics.totalViews || 0,
+          vues: totalViews,
           candidatures: registrations.count || 0
         }))
       } catch (e) {

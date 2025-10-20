@@ -6,7 +6,7 @@ export const EMAILJS_CONFIG = {
   serviceId: 'service_j0e9djo', // Service ID configuré
   templateId: 'template_is0183k', // Template ID configuré
   publicKey: 'EOIRtrF0ednlQqIaK', // Public Key configurée
-  toEmail: 'marcnzenang@gmail.com' // Email de destination
+  toEmail: 'journeemploiformation@gmail.com' // Email de destination
 }
 
 // Configuration EmailJS pour éviter l'ouverture d'Outlook
