@@ -3,39 +3,53 @@
 import { useEffect, useState, useRef } from 'react';
 
 export default function PartenairesSection() {
-  // logos locaux (et faciles à mettre en cache)
-  const logos = Array.from({ length: 9 }).map((_, i) => ({
-    id: `p${i + 1}`,
-    src: `/images/p${i + 1}.jpeg`,
-    alt: `Partenaire ${i + 1}`,
-  }));
+  // 1. Définition des Logos (Utilise votre structure originale)
+  // J'ai inclus le p13.png et assumé le format JPEG pour les autres.
+  const logos = [
+    { id: 'p1', src: '/images/p1.jpeg', alt: 'Partenaire 1' },
+    { id: 'p2', src: '/images/p2.jpeg', alt: 'Partenaire 2' },
+    { id: 'p3', src: '/images/p3.jpeg', alt: 'Partenaire 3' },
+    { id: 'p4', src: '/images/p4.jpeg', alt: 'Partenaire 4' },
+    { id: 'p5', src: '/images/p5.jpeg', alt: 'Partenaire 5' },
+    { id: 'p6', src: '/images/p6.jpeg', alt: 'Partenaire 6' },
+    { id: 'p7', src: '/images/p7.jpeg', alt: 'Partenaire 7' },
+    { id: 'p8', src: '/images/p8.jpeg', alt: 'Partenaire 8' },
+    { id: 'p9', src: '/images/p9.jpeg', alt: 'Partenaire 9' },
+    { id: 'p10', src: '/images/p10.jpg', alt: 'Partenaire 10' },
+    { id: 'p11', src: '/images/p11.jpg', alt: 'Partenaire 11' },
+    { id: 'p12', src: '/images/p12.jpg', alt: 'Partenaire 12' },
+    { id: 'p13', src: '/images/p13.png', alt: 'Partenaire 13' } // Notez le PNG
+  ];
 
-  // Dupliquer les logos pour un défilement infini
-  const duplicatedLogos = [...logos, ...logos, ...logos];
-
-  // petit effet d'apparition progressive pour le confort
+  const numberOfFaces = logos.length; 
+  
   const [mounted, setMounted] = useState(false);
   const wheelRef = useRef<HTMLDivElement>(null);
   
+  // PARAMÈTRES CRITIQUES POUR LA STABILITÉ 3D
+  const FACE_WIDTH = 208; // w-52 (208px)
+  const FACE_HEIGHT = 144; // h-36 (144px)
+  
+  // Calcul du rayon (RADIUS) : Assure que les faces ne se chevauchent pas et sont bien espacées
+  const faceAngle = 360 / numberOfFaces;
+  const RADIUS = Math.round((FACE_WIDTH / 2) / Math.tan((faceAngle / 2) * Math.PI / 180)) + 20; 
+
   useEffect(() => {
     setMounted(true);
     
-    // Animation de rotation continue optimisée
     if (wheelRef.current) {
       const wheel = wheelRef.current;
       let rotation = 0;
       let animationId: number;
       
       const animate = () => {
-        rotation += 0.15; // Vitesse de rotation plus lente et douce
+        rotation += 0.1; // Vitesse de rotation très douce (ajustez si besoin)
         wheel.style.transform = `rotateY(${rotation}deg)`;
         animationId = requestAnimationFrame(animate);
       };
       
-      // Démarrer l'animation
       animationId = requestAnimationFrame(animate);
       
-      // Nettoyer l'animation au démontage
       return () => {
         if (animationId) {
           cancelAnimationFrame(animationId);
@@ -52,35 +66,32 @@ export default function PartenairesSection() {
           <p className="text-gray-600">Ils soutiennent l'événement</p>
         </div>
 
-        {/* Conteneur 3D pour la roue */}
-        <div className="flex justify-center items-center h-[600px] perspective-1000 overflow-hidden">
+        {/* Conteneur 3D ajusté : perspective plus large, hauteur ajustée */}
+        <div className="flex justify-center items-center h-[500px] perspective-[1200px] overflow-hidden"> 
           <div 
             ref={wheelRef}
-            className="relative w-[700px] h-[400px] transform-style-preserve-3d"
+            className="relative w-[700px] h-[300px]" // Conteneur pour la roue
             style={{
               transformStyle: 'preserve-3d',
-              animation: 'none' // Désactiver l'animation CSS pour utiliser JS
+              opacity: mounted ? 1 : 0,
+              transition: 'opacity 1s ease-in' // Animation d'apparition
             }}
           >
-            {duplicatedLogos.map((logo, index) => {
-              const angle = (360 / logos.length) * index;
-              const radius = 250; // Rayon de la roue agrandi pour plus d'espacement
-              const x = Math.cos((angle * Math.PI) / 180) * radius;
-              const z = Math.sin((angle * Math.PI) / 180) * radius;
+            {logos.map((logo, index) => {
+              const angle = (360 / numberOfFaces) * index;
               
               return (
                 <div
                   key={`${logo.id}-${index}`}
-                  className="absolute w-48 h-32 bg-white/95 border border-gray-200 rounded-xl flex items-center justify-center shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-110"
+                  className="absolute w-52 h-36 bg-white/95 border border-gray-200 shadow-md flex items-center justify-center transition-all duration-300 hover:scale-105"
                   style={{
-                    transform: `translateX(${x}px) translateZ(${z}px) rotateY(${-angle + 90}deg)`,
-                    transformStyle: 'preserve-3d',
-                    opacity: mounted ? 1 : 0,
-                    transitionDelay: `${index * 30}ms`,
+                    // Formule 3D canonique : rotation puis translation
+                    transform: `rotateY(${angle}deg) translateZ(${RADIUS}px)`,
+                    // Centrage de l'élément à l'intérieur du conteneur parent
                     left: '50%',
                     top: '50%',
-                    marginLeft: '-96px', // -w/2
-                    marginTop: '-64px'   // -h/2
+                    marginLeft: `-${FACE_WIDTH / 2}px`, // -104px
+                    marginTop: `-${FACE_HEIGHT / 2}px`, // -72px
                   }}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -109,9 +120,3 @@ export default function PartenairesSection() {
     </section>
   );
 }
-
-
-
-
-
-

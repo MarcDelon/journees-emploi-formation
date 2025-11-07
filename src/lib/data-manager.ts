@@ -167,7 +167,7 @@ class InMemoryDataManager {
 			adresse: 'Douala, Cameroun',
 			reseauxSociaux: {},
 			editionActuelle: '6e Édition',
-			dateEvenement: '12-14 novembre 2025',
+			dateEvenement: '19-21 novembre 2025',
 			lieuEvenement: 'Douala'
 		}
 		

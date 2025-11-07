@@ -164,7 +164,7 @@ const HeroSection = () => {
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
               <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-egalite-blue flex-shrink-0" />
-              <span className="text-center">12-14 novembre 2025</span>
+              <span className="text-center">19-21 novembre 2025</span>
             </motion.div>
             <motion.div 
               className="flex items-center justify-center space-x-2 text-gray-600 bg-white/50 backdrop-blur-sm mobile-px py-2 rounded-lg border border-gray-200/50 mobile-text-sm"

@@ -418,7 +418,7 @@ export default function JourneesEmploiPage() {
   }
 
   const eventDetails = {
-    date: '12-14 novembre 2025',
+    date: '19-21 novembre 2025',
     location: 'Douala',
     attendees: '2500+ visiteurs attendus',
     duration: '3 jours',
@@ -435,7 +435,7 @@ export default function JourneesEmploiPage() {
 
   const program = [
     {
-      day: 'Jour 1 - 12 Novembre',
+      day: 'Jour 1 - 19 Novembre',
       events: [
         { time: '09:00', title: 'Ouverture officielle', description: 'Discours d\'ouverture et présentation des objectifs' },
         { time: '10:00', title: 'Conférences plénières', description: 'Interventions sur l\'insertion professionnelle' },
@@ -444,7 +444,7 @@ export default function JourneesEmploiPage() {
       ]
     },
     {
-      day: 'Jour 2 - 13 Novembre',
+      day: 'Jour 2 - 20 Novembre',
       events: [
         { time: '09:00', title: 'Ateliers de formation', description: 'Sessions de formation et de coaching' },
         { time: '11:00', title: 'Simulations d\'entretien', description: 'Entraînement aux entretiens d\'embauche' },
@@ -453,7 +453,7 @@ export default function JourneesEmploiPage() {
       ]
     },
     {
-      day: 'Jour 3 - 14 Novembre',
+      day: 'Jour 3 - 21 Novembre',
       events: [
         { time: '09:00', title: 'Ateliers spécialisés', description: 'Formations techniques et certifiantes' },
         { time: '11:00', title: 'Forum de l\'innovation', description: 'Présentation des nouvelles tendances' },
@@ -701,9 +701,19 @@ export default function JourneesEmploiPage() {
               <h2 className="text-3xl md:text-4xl font-display font-bold text-egalite-dark mb-6">
                 Programme de l'événement
               </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
                 Découvrez le programme détaillé des trois jours d'événement
               </p>
+              <motion.a
+                href="/Guide Visiteurs JEF 2025.pdf"
+                download
+                className="inline-flex items-center justify-center space-x-2 bg-egalite-yellow hover:bg-egalite-yellow/90 text-egalite-dark font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Download className="w-5 h-5" />
+                <span>Télécharger le guide du visiteur</span>
+              </motion.a>
             </motion.div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

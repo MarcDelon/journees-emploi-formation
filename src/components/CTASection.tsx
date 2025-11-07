@@ -122,7 +122,7 @@ const CTASection = () => {
               transition={{ duration: 0.2 }}
             >
               <Calendar className="w-6 h-6" />
-              <span className="text-lg">12-14 novembre 2025</span>
+              <span className="text-lg">19-21 novembre 2025</span>
             </motion.div>
             <motion.div 
               className="flex items-center space-x-3 text-white/90 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg"
